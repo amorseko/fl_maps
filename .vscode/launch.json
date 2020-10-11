@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "fl_maps (Flutter)",
+            "program": "lib/main.dart",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
