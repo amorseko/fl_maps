@@ -42,6 +42,17 @@ Future<Widget> routeToWidget(BuildContext context, Widget widget) {
   );
 }
 
+Future<Widget> routeToWidgetAndReplace(BuildContext context, Widget widget) {
+  return Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) {
+      return BlocProvider(
+        child: widget,
+      );
+    }),
+  );
+}
+
 showToast(BuildContext context, String message) {
   return Scaffold.of(context).showSnackBar(new SnackBar(
     content: new Text(message),

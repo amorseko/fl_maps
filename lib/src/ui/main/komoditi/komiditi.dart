@@ -30,7 +30,7 @@ class _KomoditiPage extends State<KomoditiPage> {
       appBar: AppBar(
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.white),
-        title: TextWidget(txt: "Gapktan", color: colorTitle()),
+        title: TextWidget(txt: "Komoditi", color: colorTitle()),
         backgroundColor: primaryColor,
         elevation: 0,
       ),
@@ -86,16 +86,24 @@ class _KomoditiPage extends State<KomoditiPage> {
 
   void _simpanData() {
     if(_NamaGapoktan.text != "") {
-      _isAsync = true;
+      setState(() {
+        _isAsync = true;
+      });
       doReqKomoditi request = doReqKomoditi(
-        name: _NamaGapoktan.text
+          name: _NamaGapoktan.text,
+          mode_query: "insert"
       );
 
-      setState(() {
-        _isAsync = false;
-      });
 
-      bloc.actInsertKomoditiBloc(request.toMap(),  (status, message) => {showErrorMessage(context, message, status)});
+
+      bloc.actInsertKomoditiBloc(request.toMap(),  (status, message) => {
+        setState(() {
+          showErrorMessage(context, message, status);
+          _isAsync = false;
+        })
+
+
+      });
     } else {
       _scaffoldKey.currentState.showSnackBar(
           SnackBar(content: Text("Mohon isi text yang kosong !")));
@@ -136,12 +144,13 @@ class _KomoditiPage extends State<KomoditiPage> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    if (status == true) {
-                                      routeToWidget(context,MainPage()).then((value) {
-                                        setPotrait();
-                                      });
-//                                      Navigator.pushNamedAndRemoveUntil(
-//                                          context, "/main_page", (_) => false);
+                                    if (message == "success") {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, "/list_komoditi", (_) => false);
+//                                      Navigator.of(context).pushReplacement(new MaterialPageRoute(settings: const RouteSettings(name: '/main_page'), builder: (context) => new MainPage()));
+//                                      routeToWidget(context,MainPage()).then((value) {
+//                                        setPotrait();
+//                                      });
                                     } else {
                                       Navigator.of(context).pop();
                                     }

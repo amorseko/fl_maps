@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:fl_maps/src/bloc/request/do_req_delete_komoditi.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';
@@ -15,6 +16,8 @@ import 'package:fl_maps/src/bloc/request/do_req_gapoktan.dart';
 import 'package:fl_maps/src/bloc/bloc_insert_gapoktan.dart';
 import 'package:fl_maps/src/model/standart_model.dart';
 import 'package:fl_maps/src/ui/main/main_page.dart';
+import 'package:fl_maps/src/bloc/bloc_list_kota.dart' as blocKota;
+import 'package:fl_maps/src/model/model_list_kota.dart';
 
 class GapoktanPage extends StatefulWidget {
   @override
@@ -35,16 +38,18 @@ class _GapoktanPage extends State<GapoktanPage> {
   final _Pasar = TextEditingController();
   final _Kemitraan = TextEditingController();
 
-  String selectedProvinsi, selectedMasterKomoditi;
+  String selectedProvinsi, selectedMasterKomoditi, selectedKota;
 
 
 
   GetListModelProvinsi _Provinsi = GetListModelProvinsi();
   GetListModelMasterKomoditi _MasterKomoditi = GetListModelMasterKomoditi();
+  GetListKotaModels _Kota = GetListKotaModels();
 
 
   final listProvinsiBloc = GetListProvinsiBloc();
   final listMasterKomoditiBloc = GetListMasterKomoditiBloc();
+
 
   @override
   void initState() {
@@ -60,7 +65,7 @@ class _GapoktanPage extends State<GapoktanPage> {
       appBar: AppBar(
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.white),
-        title: TextWidget(txt: "Gapktan", color: colorTitle()),
+        title: TextWidget(txt: "Input Kelompok Petani", color: colorTitle()),
         backgroundColor: primaryColor,
         elevation: 0,
       ),
@@ -123,6 +128,7 @@ class _GapoktanPage extends State<GapoktanPage> {
                           setState(() {
                             selectedProvinsi = newValue;
                           });
+                          _attempNamaKota(newValue);
                         },
                         value: selectedProvinsi,
                         items: _Provinsi.data == null ? List<String>()
@@ -149,6 +155,44 @@ class _GapoktanPage extends State<GapoktanPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 5.0, horizontal: 0.0),
+                    child:  DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        hint: TextWidget(
+                          txtSize: 12,
+                          txt : "Pilih Kota",
+                        ),
+                        isExpanded: true,
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedKota = newValue;
+                          });
+//                          _attempNamaKota(newValue);
+                        },
+                        value: selectedKota,
+                        items: _Kota.data == null ? List<String>()
+                            .map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem(
+                              value: value,
+                              child: Text(value,
+                                  style: TextStyle(fontSize: 12)
+                              )
+                          );
+                        }).toList()
+                            : _Kota.data
+                            .map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem(
+                              value: value.id_kota,
+                              child: Text(
+                                value.nama_kota,
+                                style: TextStyle(fontSize: 12),
+                              ));
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 0.0),
                     child: TextFormField(
                       controller: _NamaProduct,
                       decoration: InputDecoration(
@@ -162,7 +206,7 @@ class _GapoktanPage extends State<GapoktanPage> {
                     child: TextFormField(
                       controller: _Namagapoktan,
                       decoration: InputDecoration(
-                        labelText: "Nama Gapoktan",
+                        labelText: "Nama Kelompok Tani",
                       ),
                     ),
                   ),
@@ -296,9 +340,25 @@ class _GapoktanPage extends State<GapoktanPage> {
     });
   }
 
+  _attempNamaKota(val) {
+    reqDelKomoditi request = reqDelKomoditi(id: val);
+    blocKota.bloc.getListNamaParangBlocs(
+        request.toMap(),
+            (model) => {
+              getDataKota(model),
+        });
+  }
+
+  getDataKota(model) {
+    setState(() {
+      _Kota = model;
+    });
+  }
+
+
   _simpanData() {
     if(selectedMasterKomoditi != "" || selectedProvinsi != "" || _Namagapoktan.text != "" || _Alamat.text != "" || _NamaPic.text != "" || _NoPic.text != "" || _JenisProduct.text != "" ||_Pasar.text != "" || _Kemitraan.text != "") {
-      _isAsync = true;
+
       doReqGapoktan request = doReqGapoktan(
         komoditi: selectedMasterKomoditi,
         provinsi: selectedProvinsi,
@@ -310,14 +370,20 @@ class _GapoktanPage extends State<GapoktanPage> {
         pasar: _Pasar.text,
         kapasitas: _Kapasitas.text,
         kemitraan: _Kemitraan.text,
-        nama_produk: _NamaProduct.text
+        nama_produk: _NamaProduct.text,
+        mode : "insert",
+        id_kota : selectedKota,
       );
 
       setState(() {
-        _isAsync = false;
+        _isAsync = true;
       });
 
-      bloc.actInsertGapoktan(request.toMap(),  (status, message) => {showErrorMessage(context, message, status)});
+      bloc.actInsertGapoktan(request.toMap(),  (status, message) => {
+        setState(() {
+          showErrorMessage(context, message, status);
+        })
+      });
 
 
 
@@ -361,12 +427,12 @@ class _GapoktanPage extends State<GapoktanPage> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    if (status == true) {
-                                      routeToWidget(context,MainPage()).then((value) {
-                                        setPotrait();
-                                      });
-//                                      Navigator.pushNamedAndRemoveUntil(
-//                                          context, "/main_page", (_) => false);
+                                    if (message == "success") {
+//                                      routeToWidget(context,MainPage()).then((value) {
+//                                        setPotrait();
+//                                      });
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, "/list_gapoktan", (_) => false);
                                     } else {
                                       Navigator.of(context).pop();
                                     }

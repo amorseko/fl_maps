@@ -3,6 +3,7 @@ import 'package:fl_maps/src/widgets/TextWidget.dart';
 import 'package:fl_maps/src/bloc/bloc-provider.dart';
 import 'package:fl_maps/src/widgets/clipper.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
+import 'package:fl_maps/src/bloc/login_bloc.dart';
 
 class PreLoginActivity extends StatefulWidget {
   @override
@@ -21,63 +22,76 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
   bool _obsecure = false;
   
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomPadding: false,
-        key: _scaffoldKey,
-        backgroundColor: primaryColor,
-        body: Column(
-          children: <Widget>[
-            logo(),
-            Padding(
-              child: Container(
-                child: _button("LOGIN", primaryColor, Colors.white, Colors.white,
-                    primaryColor, _loginSheet),
-                height: 50,
-              ),
-              padding: EdgeInsets.only(top: 80, left: 20, right: 20),
-            ),
-            Padding(
-              child: Container(
-                child: OutlineButton(
-                  highlightedBorderColor: Colors.white,
-                  borderSide: BorderSide(color: Colors.white, width: 2.0),
-                  highlightElevation: 0.0,
-                  splashColor: Colors.white,
-                  highlightColor: primaryColor,
-                  color: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                  ),
-                  child: Text(
-                    "REGISTER",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20),
-                  ),
-                  onPressed: () {
-                    _registerSheet();
-                  },
-                ),
-                height: 50,
-              ),
-              padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-            ),
-            Expanded(
-              child: Align(
-                child: ClipPath(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/main_page", (_) => false);
+        return false;
+      },
+        child : Scaffold(
+            resizeToAvoidBottomPadding: false,
+            key: _scaffoldKey,
+            backgroundColor: primaryColor,
+            body: Column(
+              children: <Widget>[
+                logo(),
+                Padding(
                   child: Container(
-                    color: Colors.white,
-                    height: 300,
+                    child: _button("LOGIN", primaryColor, Colors.white, Colors.white,
+                        primaryColor, _loginSheet),
+                    height: 50,
                   ),
-                  clipper: BottomWaveClipper(),
+                  padding: EdgeInsets.only(top: 80, left: 20, right: 20),
                 ),
-                alignment: Alignment.bottomCenter,
-              ),
+
+                Expanded(
+                  child: Align(
+                    child: ClipPath(
+                      child: Container(
+                        color: Colors.white,
+                        height: 300,
+                      ),
+                      clipper: BottomWaveClipper(),
+                    ),
+                    alignment: Alignment.bottomCenter,
+                  ),
+                )
+              ],
+              crossAxisAlignment: CrossAxisAlignment.stretch,
             )
-          ],
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-        ));
+        ),
+    );
+//    return Scaffold(
+//        resizeToAvoidBottomPadding: false,
+//        key: _scaffoldKey,
+//        backgroundColor: primaryColor,
+//        body: Column(
+//          children: <Widget>[
+//            logo(),
+//            Padding(
+//              child: Container(
+//                child: _button("LOGIN", primaryColor, Colors.white, Colors.white,
+//                    primaryColor, _loginSheet),
+//                height: 50,
+//              ),
+//              padding: EdgeInsets.only(top: 80, left: 20, right: 20),
+//            ),
+//
+//            Expanded(
+//              child: Align(
+//                child: ClipPath(
+//                  child: Container(
+//                    color: Colors.white,
+//                    height: 300,
+//                  ),
+//                  clipper: BottomWaveClipper(),
+//                ),
+//                alignment: Alignment.bottomCenter,
+//              ),
+//            )
+//          ],
+//          crossAxisAlignment: CrossAxisAlignment.stretch,
+//        ));
   }
 
   Widget filledButton(String text, Color splashColor, Color highlightColor,
@@ -273,7 +287,7 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
                       padding: EdgeInsets.only(
                         bottom: 20,
                       ),
-                      child: _input(Icon(Icons.email), "EMAIL",
+                      child: _input(Icon(Icons.person_outline), "USERNAME",
                           _emailController, false),
                     ),
                     Padding(
@@ -380,7 +394,7 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 20, top: 60),
-                        child: _input(Icon(Icons.email), "EMAIL",
+                        child: _input(Icon(Icons.person_outline), "USERNAME",
                             _emailController, false),
                       ),
                       Padding(
@@ -447,11 +461,16 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
     _email = _emailController.text;
     _password = _passwordController.text;
     if (_email !="" && _password != "") {
-      if(_email == "admin" && _password == "admin") {
-        Navigator.pushNamedAndRemoveUntil(context, "/main_page", (_) => false);
-      } else {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Email or Password is wrong !")));
-      }
+      var reqDologin = {
+          "username": _email,
+          "password": _password
+      };
+      
+      bloc.fetchDoLogin(reqDologin, (status, message, code) {
+        print(message);
+        _openMainMenu(status,message,code);
+      });
+
     } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Please fill email and password")));
     }
@@ -468,6 +487,17 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
     _nameController.clear();
   }
 
+  _openMainMenu(status, message, code) async{
+      print(message);
+//    print("data nya : " + code);
+//    print("status login : $status");
+    if (code == 200) {
+      print("Status Login");
+      Navigator.pushNamedAndRemoveUntil(context, "/main_page", (_) => false);
+    } else  {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+    }
+  }
 
 
 

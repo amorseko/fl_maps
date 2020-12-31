@@ -1,4 +1,5 @@
 class doReqGapoktan {
+  final String id_gapoktan;
   final String komoditi;
   final String provinsi;
   final String nama_produk;
@@ -10,12 +11,14 @@ class doReqGapoktan {
   final String kapasitas;
   final String pasar;
   final String kemitraan;
+  final String mode;
+  final String id_kota;
 
-
-  doReqGapoktan({this.komoditi, this.provinsi, this.nama_produk, this.nama_gapoktan, this.alamat, this.nama_pic, this.no_pic, this.jenis_produk, this.kapasitas, this.pasar, this.kemitraan});
+  doReqGapoktan({this.id_gapoktan,this.komoditi, this.provinsi, this.nama_produk, this.nama_gapoktan, this.alamat, this.nama_pic, this.no_pic, this.jenis_produk, this.kapasitas, this.pasar, this.kemitraan, this.mode, this.id_kota});
 
   factory doReqGapoktan.fromJson(Map<String, dynamic> json) {
     return doReqGapoktan(
+      id_gapoktan: json['id_gapoktan'],
       komoditi: json['komoditi'],
       provinsi: json['provinsi'],
       nama_produk: json['nama_produk'],
@@ -27,11 +30,14 @@ class doReqGapoktan {
       kapasitas: json['kapasitas'],
       pasar: json['pasar'],
       kemitraan: json['kemitraan'],
+      mode: json['mode'],
+      id_kota: json['id_kota'],
     );
   }
 
   Map toMap() {
     var map = new Map<String, dynamic>();
+    map["id_gapoktan"] = id_gapoktan;
     map["komoditi"] = komoditi;
     map["provinsi"] = provinsi;
     map["nama_produk"] = nama_produk;
@@ -43,6 +49,8 @@ class doReqGapoktan {
     map["kapasitas"] = kapasitas;
     map["pasar"] = pasar;
     map["kemitraan"] = kemitraan;
+    map['mode'] = mode;
+    map['id_kota'] = id_kota;
     return map;
   }
 

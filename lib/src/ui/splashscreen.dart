@@ -20,7 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigationPage() async {
-    Navigator.of(context).pushReplacementNamed('/prelogin_menu');
+//    Navigator.of(context).pushReplacementNamed('/prelogin_menu');
+    Navigator.pushNamedAndRemoveUntil(context, "/maps_page", (_) => false);
 
   }
 

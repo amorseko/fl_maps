@@ -7,8 +7,8 @@ class GetListGapoktanCmbBloc {
   final _GetListGapoktanCmbBloc = PublishSubject<GetModelGapoktan>();
 
   Stream<GetModelGapoktan> get getListGapoktanCmb => _GetListGapoktanCmbBloc.stream;
-  getListGapoktanBlocCmb(Function(GetModelGapoktan model) callback) async {
-    GetModelGapoktan model = await _repository.getListGapoktan();
+  getListGapoktanBlocCmb(Map<String, dynamic> body,Function(GetModelGapoktan model) callback) async {
+    GetModelGapoktan model = await _repository.getListGapoktan(body:body);
     _GetListGapoktanCmbBloc.sink.add(model);
     callback(model);
   }

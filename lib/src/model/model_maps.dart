@@ -30,6 +30,17 @@ class ListMapsData {
         this.lat,
         this.long,
         this.gapoktan,
+        this.nama_kegiatan,
+        this.nomor_spk,
+        this.nama_produk,
+        this.alamat,
+        this.nama_pic,
+        this.no_pic,
+        this.no_telp,
+        this.nama_kota,
+        this.nama_provinsi,
+        this.icon_bantuan,
+        this.nama_komoditi,
       }
       );
 
@@ -39,6 +50,28 @@ class ListMapsData {
   String long;
   @JsonKey(name: 'gapoktan')
   String gapoktan;
+  @JsonKey(name: 'nama_kegiatan')
+  String nama_kegiatan;
+  @JsonKey(name: 'nomor_spk')
+  String nomor_spk;
+  @JsonKey(name: 'nama_produk')
+  String nama_produk;
+  @JsonKey(name: 'alamat')
+  String alamat;
+  @JsonKey(name: 'nama_pic')
+  String nama_pic;
+  @JsonKey(name: 'no_pic')
+  String no_pic;
+  @JsonKey(name: 'no_telp')
+  String no_telp;
+  @JsonKey(name: 'nama_kota')
+  String nama_kota;
+  @JsonKey(name: 'nama_provinsi')
+  String nama_provinsi;
+  @JsonKey(name: 'icon_bantuan')
+  String icon_bantuan;
+  @JsonKey(name: 'nama_komoditi')
+  String nama_komoditi;
 
 
   factory ListMapsData.fromJson(Map<String, dynamic> json) => _$ListMapsDataFromJson(json);

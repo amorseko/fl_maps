@@ -1,7 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show Platform;
+import 'dart:io' show File, Platform;
+import 'package:dio/dio.dart';
+import 'package:fl_maps/src/model/default_model.dart';
+import 'package:fl_maps/src/model/member_model.dart';
+import 'package:fl_maps/src/ui/main/about_us.dart';
+import 'package:fl_maps/src/ui/main/bantuan/list_bantuan.dart';
+import 'package:fl_maps/src/ui/main/bantuan/list_bantuan_new.dart';
+import 'package:fl_maps/src/ui/main/gapoktan/maps_page.dart';
+import 'package:fl_maps/src/ui/main/inventory_gapoktan/inventory_gapoktan.dart';
+import 'package:fl_maps/src/ui/main/inventory_gapoktan/list_inventory_gapoktan.dart';
+import 'package:fl_maps/src/ui/main/kinerja/list_kinerja.dart';
+import 'package:fl_maps/src/ui/main/kinerja/list_kinerja_non_bantuan.dart';
+import 'package:fl_maps/src/ui/main/kinerja/list_kinerja_only.dart';
+import 'package:fl_maps/src/ui/main/pesan.dart';
+import 'package:fl_maps/src/ui/main/settings/settings_page.dart';
+import 'package:fl_maps/src/ui/pre_login.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
+import 'package:fl_maps/src/utility/Sharedpreferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
@@ -15,26 +31,183 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_maps/src/ui/main/gapoktan/list_gapoktan.dart';
 import 'package:fl_maps/src/ui/main/komoditi/komiditi.dart';
 import 'package:fl_maps/src/ui/main/komoditi/list_komoditi.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:fl_maps/src/model/standart_model.dart';
+import 'package:fl_maps/src/bloc/doUpdatePictBloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fl_maps/src/bloc/bloc_fcm.dart' as blocFCM;
 
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
+final Map<String, Item> _items = <String, Item>{};
+Item _itemForMessage(Map<String, dynamic> message) {
+  final dynamic data = message['data'] ?? message;
+  final String itemId = data['id'];
+  final Item item = _items.putIfAbsent(itemId, () => Item(itemId: itemId))
+    ..status = data['status'];
+  return item;
+}
+
+class Item {
+  Item({this.itemId});
+  final String itemId;
+
+  StreamController<Item> _controller = StreamController<Item>.broadcast();
+  Stream<Item> get onChanged => _controller.stream;
+
+  String _status;
+  String get status => _status;
+  set status(String value) {
+    _status = value;
+    _controller.add(this);
+  }
+
+  static final Map<String, Route<void>> routes = <String, Route<void>>{};
+  Route<void> get route {
+
+  }
+}
+
 class _MainPageState extends State<MainPage> {
   bool _isLoading = true;
+  String _fullname, _id, _pict, _image, _username;
+  File _images;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String _message = '';
+
+  _registerOnFirebase() {
+    _firebaseMessaging.subscribeToTopic('all');
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+    }
+    );
+  }
+
+  void _showItemDialog(Map<String, dynamic> message) {
+    showDialog<bool>(
+      context: context,
+      builder: (_) => _buildDialog(context, _itemForMessage(message)),
+    ).then((bool shouldNavigate) {
+      if (shouldNavigate == true) {
+        _navigateToItemDetail(message);
+      }
+    });
+  }
+
+  void _navigateToItemDetail(Map<String, dynamic> message) {
+    final Item item = _itemForMessage(message);
+    // Clear away dialogs
+    Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
+    if (!item.route.isCurrent) {
+      Navigator.push(context, item.route);
+    }
+  }
+
+  Widget _buildDialog(BuildContext context, Item item) {
+    return AlertDialog(
+      content: Text("Item ${item.itemId} has been updated"),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('CLOSE'),
+          onPressed: () {
+            Navigator.pop(context, false);
+          },
+        ),
+        FlatButton(
+          child: const Text('SHOW'),
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+        ),
+      ],
+    );
+  }
+
+
+  void getMessage() {
+    _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          print('received message');
+          setState(() => _message = message["notification"]["body"]);
+          //_showItemDialog(message);
+        },
+        onResume: (Map<String, dynamic> message) async {
+          print('on resume $message');
+          setState(() => _message = message["notification"]["body"]);
+          //_showItemDialog(message);
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          print('on launch $message');
+          setState(() => _message = message["notification"]["body"]);
+          //_showItemDialog(message);
+        }
+        );
+  }
+
+
   @override
   void initState() {
     super.initState();
     initView();
+    //_registerOnFirebase();
+    getMessage();
     _isLoading = false;
   }
 
+
   initView() async{
 
+//    _logout();
     final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
 
-    sharedPrefs.clear();
+    bool CheckValue = sharedPrefs.containsKey('listgapoktan');
+
+    if(CheckValue) {
+      sharedPrefs.remove('listgapoktan');
+      //sharedPrefs.clear();
+    }
+
+    SharedPreferencesHelper.getDoLogin().then((member) async {
+      print("data member : $member");
+
+//      if(member == "" || member == null)
+//      {
+//        _logout();
+//      }
+      final memberModels = MemberModels.fromJson(json.decode(member));
+      setState(() {
+        _fullname = memberModels.data.name;
+        _id = memberModels.data.id;
+        _pict = memberModels.data.pict;
+        _image = memberModels.data.images;
+        _username = memberModels.data.username;
+
+        if(_id != null)
+        {
+          _firebaseMessaging.subscribeToTopic('all');
+          _firebaseMessaging.getToken().then((token) {
+            var data = {
+              'token' : token,
+              'id' : _id
+            };
+            print(data);
+            blocFCM.bloc.actUpdateToken(data,(status, message) => {
+              print("result update :" + message)
+            });
+
+            print(token);
+          });
+        }
+
+      });
+
+      print("data image $_image");
+    });
   }
 
   Widget _buildCustomCover(Size screenSize) {
@@ -63,20 +236,47 @@ class _MainPageState extends State<MainPage> {
           color: hintColor,
           child: ClipRRect(
             borderRadius: new BorderRadius.circular(8),
-            child: Container(
-              padding: EdgeInsets.all(22),
-              child: Center(
-                child: TextWidget(
-                  txtSize: 30,
-                  txt: "A",
-                  color: Colors.white,
+            child: new InkWell(
+                onTap: () {
+                  _showPicker(context);
+                },
+                child:  _image != "" ? Container(
+                  decoration: new BoxDecoration(
+                    border: Border.all(color: primaryColor, width: 2),
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(
+                      fit: BoxFit.cover,
+                      image:NetworkImage(_pict),
+                    )
+    //              ),
+
+                ) ) : _images != null ? Container(
+                    decoration: new BoxDecoration(
+                        border: Border.all(color: primaryColor, width: 2),
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                          fit: BoxFit.cover,
+                          image:FileImage(File(_images.toString())),
+                        )
+    //              ),
+
+                    )
+                ) : Container(
+                        padding: EdgeInsets.all(22),
+                        child: Center(
+                          child: Icon(
+                            Icons.camera_alt, color: Colors.white, size: 40.0,
+                          ),
+                        ),
+
+                      ),
+
                 ),
-              ),
+//
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildFullName() {
@@ -87,7 +287,7 @@ class _MainPageState extends State<MainPage> {
     );
 
     return Text(
-      "ASIAPP",
+      _id == null ? "ASIAPP" : _fullname,
       style: _nameTextStyle,
     );
   }
@@ -109,8 +309,8 @@ class _MainPageState extends State<MainPage> {
                 "icon": "assets/icons/icons_peserta.png",
                 "title": "BANTUAN",
                 "type": "page",
-                "page": BantuanPage(),
-                "status": true,
+                "page": ListBantuanNewPage(),
+                "status": _id == null ? false : true,
                 "color": 0xFF74b9ff
               },
               {
@@ -122,11 +322,19 @@ class _MainPageState extends State<MainPage> {
                 "color": 0xFFFE5661
               },
               {
+                "icon": "assets/icons/icon_maps_bantuan.png",
+                "title": "MAP KELOMPOK TANI",
+                "type": "page",
+                "page": MapsGapoktanPage(),
+                "status": false,
+                "color": 0xFFfd79a8
+              },
+              {
                 "icon": "assets/icons/icons_riwayat.png",
-                "title": "GAPOKTAN",
+                "title": "KELOMPOK TANI",
                 "type": "page",
                 "page": ListGapoktanPage(),
-                "status": true,
+                "status": false,
                 "color": 0xFFFF9CA24
               },
               {
@@ -134,9 +342,58 @@ class _MainPageState extends State<MainPage> {
                 "title": "KOMODITI",
                 "type": "page",
                 "page": ListKomoditiPage(),
-                "status": true,
+                //"status": _id == null ? false : true,
+                "status": false,
                 "color": 0xFF3498DB
-              }
+              },
+              {
+                "icon": "assets/icons/icon_kinerja.png",
+                "title": "KINERJA BANTUAN",
+                "type": "page",
+                "page": ListKinerjaOnlyPage(),
+                "status": _id == null ? false : true,
+                "color": 0xFF3498DB
+              },
+              {
+                "icon": "assets/icons/icons_syaratketentuan.png",
+                "title": "KINERJA NON BANTUAN",
+                "type": "page",
+                "page": ListKinerjaNonBantuanPage(),
+                "status": false,
+                "color": 0xFFfdcb6e
+              },
+              {
+                "icon": "assets/icons/icons_syaratketentuan.png",
+                "title": "INVENTORY KELOMPOK TANI",
+                "type": "page",
+                "page": ListInvenGapoktanPage(),
+                "status": false,
+                "color": 0xFFfab1a0
+              },
+              {
+                "icon": "assets/icons/icons_syaratketentuan.png",
+                "title": "LOGIN",
+                "type": "page",
+                "page": PreLoginActivity(),
+                "status": _id == null ? true : false,
+                "color": 0xFF3498DB
+              },
+              {
+                "icon": "assets/icons/icon_pesan.png",
+                "title": "PESAN",
+                "type": "page",
+                "page": PesanPage(),
+                "status": _id == null ? false : true,
+                "color": 0xFFe17055
+              },
+              {
+                "icon": "assets/icons/icon_information.png",
+                "title": "INFORMATION",
+                "type": "page",
+                "page": AboutUS(),
+                "status": true,
+                "color": 0xFF80E1D1
+              },
             ].where((menu) => menu['status'] == true).map((listMenu) {
               return GestureDetector(
                   onTap: () {
@@ -197,6 +454,7 @@ class _MainPageState extends State<MainPage> {
     // TODO: implement build
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       body: ProgressDialog(
           inAsyncCall: _isLoading,
           child: SingleChildScrollView(
@@ -217,7 +475,17 @@ class _MainPageState extends State<MainPage> {
                     ),
                     padding: EdgeInsets.all(5),
                     fillColor: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+//                      _logout();
+                      if(_id==null)
+                        {
+
+                        }
+                      else
+                        {
+                          routeToWidget(context, new SettingsPage());
+                        }
+                    },
                   ),
                 ),
               )),
@@ -225,7 +493,7 @@ class _MainPageState extends State<MainPage> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: screenSize.height / 7),
-                    _buildProfileImage(),
+                    _id != null ? _buildProfileImage() : SizedBox(height: 100,),
                     SizedBox(height: 10),
                     _buildFullName(),
                     _boxMenu(context),
@@ -240,5 +508,107 @@ class _MainPageState extends State<MainPage> {
             ],
           ))),
     );
+  }
+
+
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+
+  _imgFromCamera() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50
+    );
+
+    setState(() {
+      _images = image;
+      if(_images != null)
+      {
+        updateData(_images);
+      }
+    });
+  }
+
+  _imgFromGallery() async {
+    File image = await  ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50
+    );
+
+    setState(() {
+      _images = image;
+
+      if(_images != null)
+      {
+        updateData(_images);
+      }
+    });
+  }
+
+  updateData(File __image) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String fileName = __image.path.split('/').last;
+
+    var formData = FormData.fromMap({
+      'id': _id,
+      'foto': await MultipartFile.fromFile(__image.path, filename: fileName),
+      'username' : _username,
+    });
+
+    bloc.doUpdatePictBloc(formData, (callback){
+      DefaultModel model = callback;
+      String _Message;
+      setState(() {
+        _isLoading = false;
+        print(model.status);
+        if(model.error == false)
+        {
+          _Message = "Sukses";
+        }
+        else
+        {
+          _Message = "Gagal";
+        }
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            _Message,
+          ),
+          duration: Duration(seconds: 2),
+        ));
+
+//        showErrorMessage(context, model.message, model.error);
+      });
+    });
+
   }
 }

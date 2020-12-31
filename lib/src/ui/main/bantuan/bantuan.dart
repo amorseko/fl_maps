@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:fl_maps/src/ui/main/bantuan/list_bantuan.dart';
 import 'package:intl/intl.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class _BantuanPage extends State<BantuanPage> {
                     child: DropdownButton<String>(
                       hint: TextWidget(
                         txtSize: 12,
-                        txt : "Pilih Gapoktan",
+                        txt : "Pilih Kelompok Tani",
                       ),
                       isExpanded: true,
                       onChanged: (newValue) {
@@ -287,7 +288,7 @@ class _BantuanPage extends State<BantuanPage> {
                   child: Column(
                     children: <Widget>[
                       InkWell(
-                        onTap: () => {getImage()},
+                        onTap: () => {_showPicker(context)},
                         child: TextFormField(
                           enabled: false,
                           decoration: InputDecoration(labelText: "Foto"),
@@ -356,18 +357,74 @@ class _BantuanPage extends State<BantuanPage> {
   //   }
   // }
 
-  Future getImage() async {
-    print("onpressed");
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+
+  _imgFromCamera() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50
+    );
+
     setState(() {
       _image = image;
-      print("this is a image path : ${_image.path}");
-      // _foto.value = TextEditingValue(text: _image.toString());
     });
   }
 
+  _imgFromGallery() async {
+    File image = await  ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50
+    );
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+//  Future getImage() async {
+//    print("onpressed");
+//    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+//    setState(() {
+//      _image = image;
+//      print("this is a image path : ${_image.path}");
+//      // _foto.value = TextEditingValue(text: _image.toString());
+//    });
+//  }
+
   _attempGapoktan() {
-    listGapoktanBloc.getListGapoktanBlocCmb((model) => {
+    var params = {
+      "id_gapoktan" : "",
+      "id_kota" : "",
+      "id_provinsi" : "",
+    };
+    listGapoktanBloc.getListGapoktanBlocCmb(params,(model) => {
       getGapoktanData(model),
     });
   }
@@ -402,8 +459,9 @@ class _BantuanPage extends State<BantuanPage> {
     String lokasiBantuan =
         posisi.latitude.toString() + ", " + posisi.longitude.toString();
     String fileName = _image.path.split('/').last;
-    valueDate.split("-");
-    String tanggal = "${valueDate[2]} - ${valueDate[1]} - ${valueDate[0]}";
+    var dateSplit = valueDate.split("-");
+//    print(dateSplit[0]);
+    String tanggal = "${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}";
     print(tanggal);
     var formData = FormData.fromMap({
       'gapoktan': _selectedGapoktan,
@@ -417,18 +475,21 @@ class _BantuanPage extends State<BantuanPage> {
       'tanggal': tanggal,
       'foto': await MultipartFile.fromFile(_image.path, filename: fileName),
       'gps_tag': lokasiBantuan,
+      'mode':'insert',
     });
 
     bloc.doBantuan(formData, (callback) {
       DefaultModel model = callback;
+      print(model);
 //      print(model.message);
 
       setState(() {
         _isLoading = false;
+        print(model.status);
+        showErrorMessage(context, model.message, model.error);
       });
 
-      print(model.status);
-      showErrorMessage(context, model.message, model.error);
+
       // if (model.status == "success") {
       // Scaffold.of(context).showSnackBar(SnackBar(content: Text(model.message)));
       // } else {
@@ -472,12 +533,16 @@ class _BantuanPage extends State<BantuanPage> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    if (status == true) {
-                                      routeToWidget(context, MainPage())
-                                          .then((value) {
-                                        setPotrait();
-                                      });
+                                    if (message == "success") {
                                       clearfield();
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, "/list_bantuan", (_) => false);
+//                                      Navigator.of(context).pushReplacement(new MaterialPageRoute(settings: const RouteSettings(name: '/list_bantuan'), builder: (context) => new ListBantuanPage()));
+//                                      routeToWidget(context, MainPage())
+//                                          .then((value) {
+//                                        setPotrait();
+//                                      });
+
                                     } else {
                                       Navigator.of(context).pop();
                                     }

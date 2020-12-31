@@ -10,6 +10,7 @@ import 'package:fl_maps/src/ui/main/gapoktan/gapoktan.dart';
 import 'package:fl_maps/src/model/model_gapoktan.dart';
 import 'package:fl_maps/src/bloc/bloc_gapoktan.dart';
 import 'package:fl_maps/src/bloc/bloc_delete_gapoktan.dart';
+import 'package:fl_maps/src/ui/main/gapoktan/edit_gapoktan.dart';
 
 class ListGapoktanPage extends StatefulWidget {
   @override
@@ -74,64 +75,68 @@ class _ListGapoktanPage extends State<ListGapoktanPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          brightness: Brightness.light,
-          iconTheme: IconThemeData(color: Colors.white),
-          title:
-          Text("List Data Gapoktan",
-              style: TextStyle(color: Colors.white)
-          ),
-          centerTitle: true,
-          backgroundColor: primaryColor
-      ),
-      body: ProgressDialog(
-        inAsyncCall: _isAsync,
-        child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Padding(
-                padding: new EdgeInsets.fromLTRB(10, 10, 10, 0),
-              ),
-              Expanded(
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: _GapoktanData.length,
-                    itemBuilder: (context, index){
-                      return GapoktanList(
-                          index: index,
-                          gapoktanData: _GapoktanData[index],
-                          onDelete: () => removeItem(index),
-                      );
-                    },
-                  ),
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/main_page", (_) => false);
+          return false;
+          },
+        child : Scaffold(
+            appBar: AppBar(
+                brightness: Brightness.light,
+                iconTheme: IconThemeData(color: Colors.white),
+                title:
+                Text("List Data Kelompok Tani",
+                    style: TextStyle(color: Colors.white)
                 ),
+                centerTitle: true,
+                backgroundColor: primaryColor
+            ),
+            body: ProgressDialog(
+              inAsyncCall: _isAsync,
+              child: Column(
+                children: <Widget>[
+
+                  Expanded(
+                      child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: _GapoktanData.length,
+                            itemBuilder: (context, index){
+                              return GapoktanList(
+                                index: index,
+                                gapoktanData: _GapoktanData[index],
+                                onDelete: () => removeItem(index),
+                              );
+                            },
+                          )
+                      )
+                  )
+                ],
               ),
-            ],
-        ),
-      ),
-      floatingActionButton: Container(
-        padding: EdgeInsets.only(bottom: 50.0),
-        child: Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              child: Icon(
-                  Icons.add,
-                  color: Colors.white
-              ),
-              backgroundColor: primaryColor,
-              onPressed: (){
-                routeToWidget(context, GapoktanPage()).then((value) {
-                  setPotrait();
-                });
+            ),
+            floatingActionButton: Container(
+              padding: EdgeInsets.only(bottom: 50.0),
+              child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: FloatingActionButton(
+                    child: Icon(
+                        Icons.add,
+                        color: Colors.white
+                    ),
+                    backgroundColor: primaryColor,
+                    onPressed: (){
+                      routeToWidget(context, GapoktanPage()).then((value) {
+                        setPotrait();
+                      });
 //                routeToWidget(context, FormPengajuanPage());
-              },
+                    },
+                  )
+              ),
             )
-        ),
-      )
+        )
     );
   }
 
@@ -255,9 +260,11 @@ class GapoktanList extends StatelessWidget {
                         IconButton(
                           icon: new Icon(Icons.edit, color: primaryColor,),
                           onPressed:(){
-                            print(index);
+//                            print(index);
+                            routeToWidget(context, EditGapoktanPage(idGapoktan: gapoktanData.id_gapoktan,)).then((value) {
+                              setPotrait();
+                            });
 
-//                            this.onDelete();
                           },
                         ),
                         IconButton(
