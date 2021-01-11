@@ -231,7 +231,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahDiOlah,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Diolah",
+                      labelText: "Jumlah Diolah (Kg)",
                     ),
                   ),
                 ),
@@ -248,7 +248,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahHasilOlahan,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Hasil Olahan",
+                      labelText: "Jumlah Hasil Olahan (Kg)",
                     ),
                   ),
                 ),
@@ -268,7 +268,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahDiJual,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Dijual",
+                      labelText: "Jumlah Dijual (Kg)",
                     ),
                   ),
                 ),
@@ -288,7 +288,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _HargaProduk,
                     decoration: InputDecoration(
-                      labelText: "Harga produk",
+                      labelText: "Harga produk (Rp)",
                     ),
                   ),
                 ),
@@ -326,7 +326,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahPenjualan,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Penjualan",
+                      labelText: "Jumlah Penjualan (Rp)",
                     ),
                   ),
                 ),
@@ -343,7 +343,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _PenghasilanJasaAlat,
                     decoration: InputDecoration(
-                      labelText: "Penghasilan jasa alat",
+                      labelText: "Penghasilan jasa alat (Rp)",
                     ),
                   ),
                 ),
@@ -360,7 +360,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _UangKas,
                     decoration: InputDecoration(
-                      labelText: "Uang kas",
+                      labelText: "Uang kas (Rp)",
                     ),
                   ),
                 ),
@@ -475,7 +475,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
     int _HargaProduks = int.parse(_HargaProduk.text);
     int _JunlahDijuals = int.parse(_JumlahDiJual.text);
      _Total = (_JunlahDijuals * _HargaProduks) - (int.parse(_BiayaDiolah.text));
-     _JumlahPenjualan.text = "Rp " + _Total.toString();
+     _JumlahPenjualan.text = _Total.toString();
     print(_Total);
 
   }

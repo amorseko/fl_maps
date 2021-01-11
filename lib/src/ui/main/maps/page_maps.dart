@@ -41,6 +41,8 @@ class MapsPage extends StatefulWidget {
 
 class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
+//  static const IconData filter_alt = IconData(0xe73d, fontFamily: 'MaterialIcons');
+
   Animation<double> _animation;
   AnimationController _animationController;
 
@@ -95,7 +97,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                 brightness: Brightness.light,
 //            iconTheme: IconThemeData(color: Colors.white),
                 leading: new IconButton(
-                  icon: new Icon(Icons.arrow_back, color: Colors.white),
+                  icon: new Icon(Icons.menu, color: Colors.white),
                   onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                       MainPage()), (Route<dynamic> route) => false),
                 ),
@@ -103,7 +105,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(
-                      Icons.assignment,
+                      Icons.filter_list,
                       color: Colors.white,
                     ),
                     onPressed: () {
