@@ -8,6 +8,7 @@ import 'package:fl_maps/src/model/model_edit_kinerja.dart';
 import 'package:fl_maps/src/model/model_get_inven_gapoktan.dart';
 import 'package:fl_maps/src/model/model_jenis_bantuan_flag.dart';
 import 'package:fl_maps/src/model/model_jenis_proses.dart';
+import 'package:fl_maps/src/model/model_list_notif.dart';
 import 'package:fl_maps/src/model/model_maps.dart';
 import 'package:fl_maps/src/model/model_gapoktan.dart';
 import 'package:fl_maps/src/model/model_maps_gapoktan_new.dart';
@@ -165,4 +166,7 @@ class Repository {
 
   Future<StandartModels> fetchUpdateToken({Map<String, dynamic> body}) =>
       apiProvider.actUpdateToken(body: body);
+
+  Future<GetListNotifModels> fetchDataNotif({Map<String, dynamic> body}) =>
+      apiProvider.fetchListNotif(body: body);
 }

@@ -202,7 +202,7 @@ class _PreviewKinerjaOnlyPage extends State<PreviewKinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahDiOlah,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Diolah",
+                      labelText: "Jumlah Diolah (Kg)",
                     ),
                   ),
                 ),
@@ -220,7 +220,7 @@ class _PreviewKinerjaOnlyPage extends State<PreviewKinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahHasilOlahan,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Hasil Olahan",
+                      labelText: "Jumlah Hasil Olahan (Kg)",
                     ),
                   ),
                 ),
@@ -239,7 +239,7 @@ class _PreviewKinerjaOnlyPage extends State<PreviewKinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahDiJual,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Dijual",
+                      labelText: "Jumlah Dijual (Kg)",
                     ),
                   ),
                 ),
@@ -258,7 +258,7 @@ class _PreviewKinerjaOnlyPage extends State<PreviewKinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _HargaProduk,
                     decoration: InputDecoration(
-                      labelText: "Harga produk",
+                      labelText: "Harga produk (Rp)",
                     ),
                   ),
                 ),
@@ -295,7 +295,7 @@ class _PreviewKinerjaOnlyPage extends State<PreviewKinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _JumlahPenjualan,
                     decoration: InputDecoration(
-                      labelText: "Jumlah Penjualan",
+                      labelText: "Jumlah Penjualan (Rp)",
                     ),
                   ),
                 ),
@@ -313,7 +313,7 @@ class _PreviewKinerjaOnlyPage extends State<PreviewKinerjaOnlyPage> {
                     keyboardType: TextInputType.number,
                     controller: _PenghasilanJasaAlat,
                     decoration: InputDecoration(
-                      labelText: "Penghasilan jasa alat",
+                      labelText: "Penghasilan jasa alat (Rp)",
                     ),
                   ),
                 ),

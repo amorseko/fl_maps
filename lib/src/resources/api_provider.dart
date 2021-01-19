@@ -12,6 +12,7 @@ import 'package:fl_maps/src/model/model_get_inven_gapoktan.dart';
 import 'package:fl_maps/src/model/model_jenis_bantuan_flag.dart';
 import 'package:fl_maps/src/model/model_jenis_proses.dart';
 import 'package:fl_maps/src/model/model_list_kota.dart';
+import 'package:fl_maps/src/model/model_list_notif.dart';
 import 'package:fl_maps/src/model/model_maps.dart';
 import 'package:fl_maps/src/model/model_gapoktan.dart';
 import 'package:fl_maps/src/model/model_maps_gapoktan_new.dart';
@@ -784,4 +785,16 @@ class ApiProvider {
     }
   }
 
+  Future<GetListNotifModels> fetchListNotif(
+      {Map<String, dynamic> body}) async {
+    final _dio = await _syncConnWithoutToken();
+    try {
+      final response =
+      await _dio.post("/list_notif.php", data: json.encode(body));
+      print(response.data);
+      return GetListNotifModels.fromJson(response.data);
+    } catch (error, _) {
+      //return GetListNotifModels.withError(_handleError(error));
+    }
+  }
 }

@@ -13,6 +13,7 @@ import 'package:fl_maps/src/ui/main/inventory_gapoktan/list_inventory_gapoktan.d
 import 'package:fl_maps/src/ui/main/kinerja/list_kinerja.dart';
 import 'package:fl_maps/src/ui/main/kinerja/list_kinerja_non_bantuan.dart';
 import 'package:fl_maps/src/ui/main/kinerja/list_kinerja_only.dart';
+import 'package:fl_maps/src/ui/main/list_notif.dart';
 import 'package:fl_maps/src/ui/main/pesan.dart';
 import 'package:fl_maps/src/ui/main/settings/settings_page.dart';
 import 'package:fl_maps/src/ui/pre_login.dart';
@@ -133,6 +134,7 @@ class _MainPageState extends State<MainPage> {
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print('received message');
+          print(message["notification"]["id"]);
           setState(() => _message = message["notification"]["body"]);
           //_showItemDialog(message);
         },
@@ -459,54 +461,92 @@ class _MainPageState extends State<MainPage> {
           inAsyncCall: _isLoading,
           child: SingleChildScrollView(
               child: Stack(
-            children: <Widget>[
-              _buildCustomCover(screenSize),
-              Positioned(
-                  child: Padding(
-                padding: const EdgeInsets.only(top: 50.0, right: 10.0),
-                child: Align(
-                  alignment: FractionalOffset.topRight,
-                  child: RawMaterialButton(
-                    elevation: 10,
-                    shape: new CircleBorder(),
-                    child: Image(
-                      image: AssetImage("assets/icons/icon_settings.png"),
-                      height: 30,
-                    ),
-                    padding: EdgeInsets.all(5),
-                    fillColor: Colors.white,
-                    onPressed: () {
-//                      _logout();
-                      if(_id==null)
-                        {
+              children: <Widget>[
+                _buildCustomCover(screenSize),
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 50.0, right: 10.0),
+                      child: Align(
+                        alignment: FractionalOffset.topRight,
+                        child: RawMaterialButton(
+                          elevation: 10,
+                          shape: new CircleBorder(),
+                          child: Image(
+                            image: AssetImage("assets/icons/ic_notif_flat.png"),
+                            height: 30,
+                          ),
+                          padding: EdgeInsets.all(5),
+                          fillColor: Colors.white,
+                          onPressed: () {
+                            //                        _logout();
+                            if(_id==null)
+                            {
 
-                        }
-                      else
-                        {
-                          routeToWidget(context, new SettingsPage());
-                        }
-                    },
+                            }
+                            else
+                            {
+
+                              routeToWidget(context, new ListNotifPage());
+                            }
+                          },
+                        ),
+                      ),
+
+                    ),
+
                   ),
+                Positioned(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 50.0, left: 10.0),
+                    child: Align(
+                      alignment: FractionalOffset.topLeft,
+                      child: RawMaterialButton(
+                        elevation: 10,
+                        shape: new CircleBorder(),
+                        child: Image(
+                          image: AssetImage("assets/icons/icon_settings.png"),
+                          height: 30,
+                        ),
+                        padding: EdgeInsets.all(5),
+                        fillColor: Colors.white,
+                        onPressed: () {
+                          //                        _logout();
+                          if(_id==null)
+                          {
+
+                          }
+                          else
+                          {
+                            print("onclick");
+                            routeToWidget(context, new SettingsPage());
+                          }
+                        },
+                      ),
+                    ),
+
+                  ),
+
                 ),
-              )),
-              SafeArea(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: screenSize.height / 7),
-                    _id != null ? _buildProfileImage() : SizedBox(height: 100,),
-                    SizedBox(height: 10),
-                    _buildFullName(),
-                    _boxMenu(context),
-                    Container(
-                        padding: EdgeInsets.all(10),
-                        child: Card(
-                          elevation: 5,
-                        ))
-                  ],
-                ),
-              ),
-            ],
-          ))),
+                  SafeArea(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: screenSize.height / 7),
+                        _id != null ? _buildProfileImage() : SizedBox(height: 100,),
+                        SizedBox(height: 10),
+                        _buildFullName(),
+                        _boxMenu(context),
+                        Container(
+                            padding: EdgeInsets.all(10),
+                            child: Card(
+                              elevation: 5,
+                            ))
+                      ],
+                    ),
+                  ),
+              ],
+              )
+          )
+      ),
     );
   }
 
