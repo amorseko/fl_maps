@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="871976da-30fe-43d0-b655-fafa1a5928c4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings_aar.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../assets/Icons/icon_information.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../assets/Icons/icon_kinerja.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../assets/Icons/icon_pesan.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../assets/Icons/icon_profile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../assets/images/change_password.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../assets/images/icon_aboutus.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../assets/images/settings.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-50x50@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-57x57@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@1x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-72x72@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/about_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_change_profile.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_delete_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_delete_data_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_delete_invengapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_delete_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_delete_komoditi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_get_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_get_data_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_get_data_komoditi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_jenis_bantuan_flag.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_jenis_proses.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_bantuan_detail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_bantuan_new.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_data_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_inven_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_invengapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_kota.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_maps_gapoktan_new.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_maps_komoditi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_master_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_list_master_jenis_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_maps_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_pesan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc_total_data.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/changepass_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/doUpdatePictBloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/login_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/request/do_req_changepass.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/request/do_req_delete_komoditi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/request/do_req_list_kinerja_only.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/submit_data_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/submit_invetorygapoktan_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/bloc/submit_jenis_proses_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/aboutus_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/aboutus_model.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/member_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/member_model.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_bantuan_detail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_bantuan_detail.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_bantuan_new.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_bantuan_new.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_data_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_data_kinerja.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_edit_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_edit_gapoktan.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_edit_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_edit_kinerja.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_get_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_get_bantuan.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_get_inven_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_get_komoditi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_get_komoditi.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_jenis_bantuan_flag.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_jenis_bantuan_flag.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_jenis_proses.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_jenis_proses.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_list_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_list_bantuan.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_list_kota.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_list_kota.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_maps_gapoktan_new.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_maps_gapoktan_new.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_maps_komoditi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_maps_komoditi.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_master_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_master_gapoktan.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_master_jenis_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_master_jenis_bantuan.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_show_invengapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_show_invengapoktan.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_total_data.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/model/model_total_data.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/about_us.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/bantuan/edit_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/bantuan/list_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/bantuan/list_bantuan_detail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/bantuan/list_bantuan_new.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/gapoktan/edit_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/gapoktan/list_gapoktan_select.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/gapoktan/maps_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/inventory_gapoktan/edit_inventory_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/inventory_gapoktan/inventory_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/inventory_gapoktan/list_inventory_gapoktan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/edit_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/edit_kinerja_non_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/edit_kinerja_only.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/kinerja_only.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/list_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/list_kinerja_non_bantuan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/list_kinerja_only.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/non_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/preview_kinerja.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/kinerja/preview_kinerja_only.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/komoditi/edit_komoditi.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/pesan.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/settings/ganti_password.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/settings/ganti_profile.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/ui/main/settings/settings_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lib/src/utility/pin_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/bloc/bloc-gapoktan-cmb.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/bloc/bloc-gapoktan-cmb.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/bloc/request/do_req_gapoktan.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/bloc/request/do_req_gapoktan.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/bloc/request/do_req_komoditi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/bloc/request/do_req_komoditi.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/default_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/default_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/model_gapoktan.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/model_gapoktan.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/model_jenis_bantuan.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/model_jenis_bantuan.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/model_list_komoditi.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/model_list_komoditi.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/model_maps.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/model_maps.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/model_maps.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/model_maps.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/model_master_komoditi.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/model_master_komoditi.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/model_provinsi.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/model_provinsi.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/model/standart_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/model/standart_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/resources/MyHttpOverrides.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/resources/MyHttpOverrides.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/resources/api_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/resources/api_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/resources/repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/resources/repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/bantuan/bantuan.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/bantuan/bantuan.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/gapoktan/gapoktan.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/gapoktan/gapoktan.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/gapoktan/list_gapoktan.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/gapoktan/list_gapoktan.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/komoditi/komiditi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/komoditi/komiditi.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/komoditi/list_komoditi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/komoditi/list_komoditi.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/main_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/main_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/maps/list_gapoktan.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/maps/list_gapoktan.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/main/maps/page_maps.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/main/maps/page_maps.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/pre_login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/pre_login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/ui/splashscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/ui/splashscreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/utility/Sharedpreferences.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/utility/Sharedpreferences.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/src/utility/utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/src/utility/utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="RR8N3027K9Y" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1lbqYWC4wU4qp0flHLCjaTNYNuL" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="E:/Android SDK" />
+    <property name="settings.editor.selected.configurable" value="project.propDebugger" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="app" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="871976da-30fe-43d0-b655-fafa1a5928c4" name="Default Changelist" comment="" />
+      <created>1607876186033</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607876186033</updated>
+    </task>
+    <servers />
+  </component>
+</project>

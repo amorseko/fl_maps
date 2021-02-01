@@ -1,0 +1,4 @@
+#Thu Jan 28 17:08:34 ICT 2021
+base.0=E\:\\sc android\\project mas muttaqin\\fl_maps\\build\\app\\intermediates\\transforms\\r8\\release\\0\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

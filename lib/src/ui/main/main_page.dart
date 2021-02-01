@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:io' show File, Platform;
 import 'package:dio/dio.dart';
 import 'package:fl_maps/src/model/default_model.dart';
@@ -27,6 +28,7 @@ import 'package:fl_maps/src/widgets/TextWidget.dart';
 import 'package:fl_maps/src/utility/utils.dart';
 import 'package:fl_maps/src/ui/main/bantuan/bantuan.dart';
 import 'package:fl_maps/src/ui/main/maps/page_maps.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_maps/src/ui/main/gapoktan/list_gapoktan.dart';
@@ -37,6 +39,7 @@ import 'package:fl_maps/src/model/standart_model.dart';
 import 'package:fl_maps/src/bloc/doUpdatePictBloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fl_maps/src/bloc/bloc_fcm.dart' as blocFCM;
+import 'package:device_info/device_info.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -78,8 +81,14 @@ class _MainPageState extends State<MainPage> {
   File _images;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  new FlutterLocalNotificationsPlugin();
+
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _message = '';
+
+  var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+  var initializationSettingsIOS = new IOSInitializationSettings();
 
   _registerOnFirebase() {
     _firebaseMessaging.subscribeToTopic('all');
@@ -129,18 +138,64 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  Future onSelectNotification(String payLoad) async {
+    routeToWidget(context, ListNotifPage()).then((value) {
+      setPotrait();
+    });
+//    showDialog(
+//      context: context,
+//      builder: (_) {
+//        return new AlertDialog(
+//          title: Text("PayLoad"),
+//          content: Text("Payload : $payload"),
+//        );
+//      },
+//    );
+  }
+  void showNotification(String title, String body) async {
+    await _demoNotification(title, body);
+  }
+
+  Future<void> _demoNotification(String title, String body) async {
+    print(title);
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'channel_ID', 'channel name', 'channel description',
+        importance: Importance.max,
+//        icon: ,
+        playSound: true,
+        //sound:RawResourceAndroidNotificationSound('sound'),
+        showProgress: true,
+        priority: Priority.high,
+        ticker: 'test ticker');
+
+    var iOSChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iOSChannelSpecifics);
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, platformChannelSpecifics, payload: body);
+  }
+
+
 
   void getMessage() {
+
+    var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print('received message');
           print(message["notification"]["id"]);
+          showNotification(message["notification"]["title"],message["notification"]["body"]);
           setState(() => _message = message["notification"]["body"]);
           //_showItemDialog(message);
         },
         onResume: (Map<String, dynamic> message) async {
           print('on resume $message');
+//          routeToWidget(context,ListNotifPage()).then((value) {
+//            setPotrait();
+//          });
           setState(() => _message = message["notification"]["body"]);
+
           //_showItemDialog(message);
         },
         onLaunch: (Map<String, dynamic> message) async {
@@ -317,7 +372,7 @@ class _MainPageState extends State<MainPage> {
               },
               {
                 "icon": "assets/icons/icon_maps_bantuan.png",
-                "title": "MAP BANTUAN",
+                "title": "MAP",
                 "type": "page",
                 "page": MapsPage(),
                 "status": true,

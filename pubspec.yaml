@@ -45,7 +45,8 @@ dependencies:
   file_picker: ^1.4.3+2
   floating_action_bubble: ^1.1.2
   firebase_messaging: ^7.0.3
-  flutter_local_notifications: 1.1.1
+  flutter_local_notifications: ^3.0.3
+  device_info: ^1.0.0
 
 
 
