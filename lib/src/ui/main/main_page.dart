@@ -20,6 +20,7 @@ import 'package:fl_maps/src/ui/main/settings/settings_page.dart';
 import 'package:fl_maps/src/ui/pre_login.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/utility/Sharedpreferences.dart';
+import 'package:fl_maps/src/widgets/LocalNotification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
@@ -40,6 +41,12 @@ import 'package:fl_maps/src/bloc/doUpdatePictBloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fl_maps/src/bloc/bloc_fcm.dart' as blocFCM;
 import 'package:device_info/device_info.dart';
+
+
+Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
+
+}
+
 
 class MainPage extends StatefulWidget {
   @override
@@ -81,15 +88,9 @@ class _MainPageState extends State<MainPage> {
   File _images;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  new FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  String _message = '';
-
-  var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
-  var initializationSettingsIOS = new IOSInitializationSettings();
-
   _registerOnFirebase() {
     _firebaseMessaging.subscribeToTopic('all');
     _firebaseMessaging.getToken().then((token) {
@@ -98,110 +99,60 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  void _showItemDialog(Map<String, dynamic> message) {
-    showDialog<bool>(
-      context: context,
-      builder: (_) => _buildDialog(context, _itemForMessage(message)),
-    ).then((bool shouldNavigate) {
-      if (shouldNavigate == true) {
-        _navigateToItemDetail(message);
+
+  Future onSelectNotification(String payload) async {
+    if(payload != "")
+      {
+        routeToWidget(context,ListNotifPage()).then((value) {
+          setPotrait();
+        });
       }
-    });
   }
 
-  void _navigateToItemDetail(Map<String, dynamic> message) {
-    final Item item = _itemForMessage(message);
-    // Clear away dialogs
-    Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
-    if (!item.route.isCurrent) {
-      Navigator.push(context, item.route);
-    }
-  }
-
-  Widget _buildDialog(BuildContext context, Item item) {
-    return AlertDialog(
-      content: Text("Item ${item.itemId} has been updated"),
-      actions: <Widget>[
-        FlatButton(
-          child: const Text('CLOSE'),
-          onPressed: () {
-            Navigator.pop(context, false);
-          },
-        ),
-        FlatButton(
-          child: const Text('SHOW'),
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
-        ),
-      ],
-    );
-  }
-
-  Future onSelectNotification(String payLoad) async {
-    routeToWidget(context, ListNotifPage()).then((value) {
-      setPotrait();
-    });
-//    showDialog(
-//      context: context,
-//      builder: (_) {
-//        return new AlertDialog(
-//          title: Text("PayLoad"),
-//          content: Text("Payload : $payload"),
-//        );
-//      },
-//    );
-  }
-  void showNotification(String title, String body) async {
-    await _demoNotification(title, body);
-  }
-
-  Future<void> _demoNotification(String title, String body) async {
-    print(title);
+  Future<void> _demoNotification(dynamic PayLoad) async {
+    final dynamic data = jsonDecode(PayLoad['data']['data']);
+    final dynamic notification = jsonDecode(PayLoad['data']['notification']);
+    final int idNotification = data['id'] != null ? int.parse(data['id']) : 1;
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'channel_ID', 'channel name', 'channel description',
+        'Assiapbun', 'notification', 'List Notification',
         importance: Importance.max,
-//        icon: ,
         playSound: true,
-        //sound:RawResourceAndroidNotificationSound('sound'),
         showProgress: true,
         priority: Priority.high,
         ticker: 'test ticker');
 
     var iOSChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iOSChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS : iOSChannelSpecifics);
     await flutterLocalNotificationsPlugin
-        .show(0, title, body, platformChannelSpecifics, payload: body);
+        .show(0, notification['title'], notification['body'], platformChannelSpecifics, payload: 'test');
   }
 
-
+  void showNotification(dynamic Payload) async {
+    await _demoNotification(Payload);
+  }
 
   void getMessage() {
-
+//    final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
+    var initializationSettingsAndroid = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
+
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          print('received message');
-          print(message["notification"]["id"]);
-          showNotification(message["notification"]["title"],message["notification"]["body"]);
-          setState(() => _message = message["notification"]["body"]);
-          //_showItemDialog(message);
+          await showNotification(message);
+//
         },
+        onBackgroundMessage: onBackgroundMessage,
         onResume: (Map<String, dynamic> message) async {
           print('on resume $message');
-//          routeToWidget(context,ListNotifPage()).then((value) {
-//            setPotrait();
-//          });
-          setState(() => _message = message["notification"]["body"]);
-
-          //_showItemDialog(message);
+          await showNotification(message);
         },
         onLaunch: (Map<String, dynamic> message) async {
           print('on launch $message');
-          setState(() => _message = message["notification"]["body"]);
-          //_showItemDialog(message);
+          await showNotification(message);
         }
         );
   }
@@ -212,6 +163,8 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     initView();
     //_registerOnFirebase();
+
+//    LocalNotification().notificationHandler(context);
     getMessage();
     _isLoading = false;
   }

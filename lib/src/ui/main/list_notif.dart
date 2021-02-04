@@ -46,6 +46,8 @@ class _ListNotifPage extends State<ListNotifPage> {
         }
       });
 
+
+
       setState(() {
         _isAsync = false;
       });
