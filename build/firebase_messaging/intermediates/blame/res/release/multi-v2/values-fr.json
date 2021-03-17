@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps\\build\\firebase_messaging\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-fr\\values-fr.xml",
+            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps - Copy\\build\\firebase_messaging\\intermediates\\res\\merged\\release\\values-fr\\values-fr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\muhammad.eko\\.gradle\\caches\\transforms-2\\files-2.1\\186f00c24e0961ce499eeb666f6484d6\\jetified-firebase-messaging-20.3.0\\res\\values-fr\\values.xml",
@@ -74,7 +74,7 @@
             ]
         },
         {
-            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps\\build\\firebase_messaging\\intermediates\\res\\merged\\release\\values-fr\\values-fr.xml",
+            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps - Copy\\build\\firebase_messaging\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-fr\\values-fr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\muhammad.eko\\.gradle\\caches\\transforms-2\\files-2.1\\186f00c24e0961ce499eeb666f6484d6\\jetified-firebase-messaging-20.3.0\\res\\values-fr\\values.xml",

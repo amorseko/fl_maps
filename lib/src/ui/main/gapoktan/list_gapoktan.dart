@@ -3,7 +3,6 @@ import 'package:fl_maps/src/bloc/request/params_maps.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';
-import 'package:fl_maps/src/widgets/TextWidget.dart';
 import 'package:fl_maps/src/utility/utils.dart';
 import 'package:flutter/services.dart';
 import 'package:fl_maps/src/ui/main/gapoktan/gapoktan.dart';

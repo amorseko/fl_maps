@@ -1,38 +1,38 @@
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:36
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:34
 -keep class androidx.core.app.CoreComponentFactory { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:36
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:34
 -keep class appflmaps.fl_maps.Application { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:45
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:43
 -keep class appflmaps.fl_maps.MainActivity { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:155
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:153
 -keep class com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:154
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:152
 -keep class com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:205
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:203
 -keep class com.google.android.datatransport.runtime.backends.TransportBackendDiscovery { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:218
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:216
 -keep class com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:212
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:210
 -keep class com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:196
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:194
 -keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:181
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:179
 -keep class com.google.android.gms.measurement.AppMeasurementJobService { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:171
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:169
 -keep class com.google.android.gms.measurement.AppMeasurementReceiver { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:177
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:175
 -keep class com.google.android.gms.measurement.AppMeasurementService { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:100
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:98
 -keep class com.google.firebase.components.ComponentDiscoveryService { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:163
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:161
 -keep class com.google.firebase.iid.FirebaseInstanceIdReceiver { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:130
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:128
 -keep class com.google.firebase.messaging.FirebaseMessagingService { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:187
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:185
 -keep class com.google.firebase.provider.FirebaseInitProvider { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:95
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:93
 -keep class io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingService { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:139
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:137
 -keep class io.flutter.plugins.imagepicker.ImagePickerFileProvider { <init>(); }
-# Referenced at E:\sc android\project mas muttaqin\fl_maps\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:149
+# Referenced at E:\sc android\project mas muttaqin\fl_maps - Copy\build\app\intermediates\merged_manifests\release\AndroidManifest.xml:147
 -keep class io.flutter.plugins.urllauncher.WebViewActivity { <init>(); }

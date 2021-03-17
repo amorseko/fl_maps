@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:fl_maps/src/bloc/request/do_req_delete_gapoktan.dart';
 import 'package:fl_maps/src/bloc/request/do_req_delete_komoditi.dart';
-import 'package:fl_maps/src/bloc/request/params_maps.dart';
 import 'package:fl_maps/src/model/member_model.dart';
 import 'package:fl_maps/src/ui/main/bantuan/list_bantuan_detail.dart';
 import 'package:fl_maps/src/utility/Sharedpreferences.dart';
@@ -187,7 +185,7 @@ class BantuanList extends StatelessWidget {
               elevation: 5,
               child: Container(
                 padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.width/1.9,
+//                height: MediaQuery.of(context).size.width/1.9,
                 width: MediaQuery.of(context).size.width,
                 child:Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

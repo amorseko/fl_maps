@@ -6,13 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:fl_maps/src/model/default_model.dart';
 import 'package:fl_maps/src/model/member_model.dart';
 import 'package:fl_maps/src/ui/main/about_us.dart';
-import 'package:fl_maps/src/ui/main/bantuan/list_bantuan.dart';
 import 'package:fl_maps/src/ui/main/bantuan/list_bantuan_new.dart';
 import 'package:fl_maps/src/ui/main/gapoktan/maps_page.dart';
-import 'package:fl_maps/src/ui/main/inventory_gapoktan/inventory_gapoktan.dart';
-import 'package:fl_maps/src/ui/main/inventory_gapoktan/list_inventory_gapoktan.dart';
-import 'package:fl_maps/src/ui/main/kinerja/list_kinerja.dart';
-import 'package:fl_maps/src/ui/main/kinerja/list_kinerja_non_bantuan.dart';
 import 'package:fl_maps/src/ui/main/kinerja/list_kinerja_only.dart';
 import 'package:fl_maps/src/ui/main/list_notif.dart';
 import 'package:fl_maps/src/ui/main/pesan.dart';
@@ -20,27 +15,19 @@ import 'package:fl_maps/src/ui/main/settings/settings_page.dart';
 import 'package:fl_maps/src/ui/pre_login.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/utility/Sharedpreferences.dart';
-import 'package:fl_maps/src/widgets/LocalNotification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';
 import 'package:fl_maps/src/widgets/TextWidget.dart';
 import 'package:fl_maps/src/utility/utils.dart';
-import 'package:fl_maps/src/ui/main/bantuan/bantuan.dart';
 import 'package:fl_maps/src/ui/main/maps/page_maps.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_maps/src/ui/main/gapoktan/list_gapoktan.dart';
-import 'package:fl_maps/src/ui/main/komoditi/komiditi.dart';
-import 'package:fl_maps/src/ui/main/komoditi/list_komoditi.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:fl_maps/src/model/standart_model.dart';
 import 'package:fl_maps/src/bloc/doUpdatePictBloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fl_maps/src/bloc/bloc_fcm.dart' as blocFCM;
-import 'package:device_info/device_info.dart';
 
 
 Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
@@ -348,37 +335,12 @@ class _MainPageState extends State<MainPage> {
                 "color": 0xFFFF9CA24
               },
               {
-                "icon": "assets/icons/icons_komoditi.png",
-                "title": "KOMODITI",
-                "type": "page",
-                "page": ListKomoditiPage(),
-                //"status": _id == null ? false : true,
-                "status": false,
-                "color": 0xFF3498DB
-              },
-              {
                 "icon": "assets/icons/icon_kinerja.png",
                 "title": "KINERJA BANTUAN",
                 "type": "page",
                 "page": ListKinerjaOnlyPage(),
                 "status": _id == null ? false : true,
                 "color": 0xFF3498DB
-              },
-              {
-                "icon": "assets/icons/icons_syaratketentuan.png",
-                "title": "KINERJA NON BANTUAN",
-                "type": "page",
-                "page": ListKinerjaNonBantuanPage(),
-                "status": false,
-                "color": 0xFFfdcb6e
-              },
-              {
-                "icon": "assets/icons/icons_syaratketentuan.png",
-                "title": "INVENTORY KELOMPOK TANI",
-                "type": "page",
-                "page": ListInvenGapoktanPage(),
-                "status": false,
-                "color": 0xFFfab1a0
               },
               {
                 "icon": "assets/icons/icons_syaratketentuan.png",

@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_maps/src/utility/Sharedpreferences.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/utility/utils.dart';
-import 'package:fl_maps/src/utility/Sharedpreferences.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';
-import 'dart:ui' as ui;
 
 class SettingsPage extends StatefulWidget {
   @override

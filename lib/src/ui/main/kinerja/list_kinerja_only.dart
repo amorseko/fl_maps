@@ -14,7 +14,6 @@ import 'package:flutter/services.dart';
 import 'package:fl_maps/src/model/model_data_kinerja.dart';
 import 'package:fl_maps/src/bloc/bloc_list_data_kinerja.dart';
 import 'package:fl_maps/src/bloc/bloc_delete_data_kinerja.dart';
-import 'package:fl_maps/src/bloc/request/do_req_list_kinerja_only.dart';
 
 class ListKinerjaOnlyPage extends StatefulWidget {
   @override
@@ -189,7 +188,7 @@ class KinerjaList extends StatelessWidget {
               elevation: 5,
               child: Container(
                 padding: EdgeInsets.all(10),
-                height: MediaQuery.of(context).size.width/1.8,
+//                height: MediaQuery.of(context).size.width/1.8,
                 width: MediaQuery.of(context).size.width,
                 child:Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,8 +4,6 @@ import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_maps/src/bloc/request/do_req_changepass.dart';
 import 'package:fl_maps/src/model/member_model.dart';
-//import 'package:fl_maps/src/utility/colors.dart';
-import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/utility/sharedpreferences.dart';
 import 'package:fl_maps/src/utility/utils.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';

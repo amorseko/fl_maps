@@ -21,7 +21,7 @@ class _ListNotifPage extends State<ListNotifPage> {
   final blocListNotif = GetListNotifBloc();
 
   List _notifData = List<GetListdataNotif>();
-
+//  entries..sort((item1, item2) => item1.date.compareTo(item2.date))
   String idUser;
 
   initData() async {
@@ -47,7 +47,8 @@ class _ListNotifPage extends State<ListNotifPage> {
       });
 
 
-
+//      _notifData.sort((a,b) => b.date_time.compareTo(a.date_time));
+//      print(_notifData);
       setState(() {
         _isAsync = false;
       });

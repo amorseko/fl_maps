@@ -1,6 +1,4 @@
-import 'package:fl_maps/src/bloc/request/do_req_delete_gapoktan.dart';
 import 'package:fl_maps/src/bloc/request/do_req_delete_komoditi.dart';
-import 'package:fl_maps/src/bloc/request/params_maps.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';

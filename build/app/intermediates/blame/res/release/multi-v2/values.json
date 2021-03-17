@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps\\build\\app\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps - Copy\\build\\app\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\muhammad.eko\\.gradle\\caches\\transforms-2\\files-2.1\\e30a44f3ff8c0afda60ee58d10dd4f42\\jetified-play-services-basement-17.0.0\\res\\values\\values.xml",
@@ -21,7 +21,26 @@
                     }
                 },
                 {
-                    "source": "E:\\sc android\\project mas muttaqin\\fl_maps\\build\\app\\generated\\res\\google-services\\release\\values\\values.xml",
+                    "source": "E:\\sc android\\project mas muttaqin\\fl_maps - Copy\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "137,791",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "433,953"
+                    },
+                    "to": {
+                        "startLines": "122,127",
+                        "startColumns": "4,4",
+                        "startOffsets": "9266,9563",
+                        "endLines": "126,129",
+                        "endColumns": "12,12",
+                        "endOffsets": "9558,9723"
+                    }
+                },
+                {
+                    "source": "E:\\sc android\\project mas muttaqin\\fl_maps - Copy\\build\\app\\generated\\res\\google-services\\release\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -73,25 +92,6 @@
                         "endLines": "4,5,6,7,8,9,10,11,94,95,96,97,98,99,100,101,103,104,105,106,107,108,109,110,111,286,364",
                         "endColumns": "89,79,89,89,79,80,79,79,104,180,124,106,179,122,115,102,187,104,180,124,174,147,62,61,78,20,20",
                         "endOffsets": "350,430,520,610,690,771,851,931,6030,6211,6336,6443,6623,6746,6862,6965,7320,7425,7606,7731,7906,8054,8117,8179,8258,18723,20562"
-                    }
-                },
-                {
-                    "source": "E:\\sc android\\project mas muttaqin\\fl_maps\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "137,791",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "433,953"
-                    },
-                    "to": {
-                        "startLines": "122,127",
-                        "startColumns": "4,4",
-                        "startOffsets": "9266,9563",
-                        "endLines": "126,129",
-                        "endColumns": "12,12",
-                        "endOffsets": "9558,9723"
                     }
                 },
                 {

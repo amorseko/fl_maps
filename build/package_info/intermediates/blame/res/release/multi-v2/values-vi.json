@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps\\build\\package_info\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-vi\\values-vi.xml",
+            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps - Copy\\build\\package_info\\intermediates\\res\\merged\\release\\values-vi\\values-vi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\muhammad.eko\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\values-vi\\values-vi.xml",
@@ -16,7 +16,7 @@
             ]
         },
         {
-            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps\\build\\package_info\\intermediates\\res\\merged\\release\\values-vi\\values-vi.xml",
+            "outputFile": "E:\\sc android\\project mas muttaqin\\fl_maps - Copy\\build\\package_info\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-vi\\values-vi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\muhammad.eko\\.gradle\\caches\\transforms-2\\files-2.1\\44b1706abe044cd42dcac5be863451ed\\core-1.1.0\\res\\values-vi\\values-vi.xml",

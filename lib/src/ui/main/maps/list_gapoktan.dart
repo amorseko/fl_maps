@@ -3,17 +3,12 @@ import 'dart:async';
 import 'package:fl_maps/src/bloc/bloc_list_komoditi.dart';
 import 'package:fl_maps/src/model/model_list_komoditi.dart';
 import 'package:fl_maps/src/ui/main/main_page.dart';
-import 'package:fl_maps/src/utility/utils.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_maps/src/model/model_gapoktan.dart';
-import 'package:fl_maps/src/bloc/bloc_gapoktan.dart';
 import 'package:fl_maps/src/bloc/request/params_maps.dart';
 import 'package:fl_maps/src/ui/main/maps/page_maps.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:shared_preferences_settings/shared_preferences_settings.dart';
-import 'package:fl_maps/src/utility/Sharedpreferences.dart';
 class GapoktanPage extends StatefulWidget {
   @override
   _GapoktakPage createState() => _GapoktakPage();
