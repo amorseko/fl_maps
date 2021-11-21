@@ -57,7 +57,7 @@ class _GapoktakPage extends State<GapoktanPage> {
             leading: new IconButton(
               icon: new Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                  MainPage()), (Route<dynamic> route) => false),
+                  MapsPage()), (Route<dynamic> route) => false),
             ),
             actions: <Widget>[
               IconButton(

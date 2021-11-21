@@ -451,11 +451,11 @@ class ApiProvider {
     }
   }
 
-  Future<GetListModelTotalData> fetchListTotalData() async {
+  Future<GetListModelTotalData> fetchListTotalData({Map<String, dynamic> body}) async {
     final _dio = await _syncConnWithoutToken();
     try {
-      final response = await _dio.post("/total_data.php");
-      print(response.data);
+      final response = await _dio.post("/total_data.php",data: json.encode(body));
+      print("data total maps page" + response.data);
       return GetListModelTotalData.fromJson(response.data);
     } catch (error, stack) {
       print(stack.toString());

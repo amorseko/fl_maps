@@ -156,6 +156,8 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
     _isLoading = false;
      new Timer(const Duration(milliseconds: 150), () {
       initView();
+
+      _animationController.reverse();
      });
 
     getMessage();
@@ -334,6 +336,18 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
               _logout();
             },
           ),
+          ListTile(
+            title: Text("INFORMATION",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icon_information.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: () {
+
+              routeToWidget(context, new AboutUS());
+            },
+          ),
         ],
       ),
     );
@@ -470,29 +484,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
-                  Stack(
-                    children: <Widget>[
-                      Positioned(
-                        bottom:  MediaQuery.of(context).size.height - 450,
-                        left: MediaQuery.of(context).size.width - 55,
-                        child: FloatingActionButton(
-                          backgroundColor: Colors.white,
-                          child: Icon(Icons.info_outline_rounded, color: Colors.blue,),
-                          onPressed: () {
-                            routeToWidget(context, new AboutUS());
-                          },
-                        ),
-                      ),
-                      // new CustomFloatingActionButtonLocation(FloatingActionButtonLocation.centerFloat, 0, -180),
-                      // Align(
-                      //   alignment: Alignment.bottomRight,
-                      //   child:
-                      //     FloatingActionButton(
-                      //         heroTag: null,
-                      //     ),
-                      // ),
-                    ],
-                  )
+
                 ],
               ),
             ),
@@ -1015,64 +1007,138 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
     //final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     SharedPreferencesHelper.getDoLogin().then((member) async {
       print("data member : $member");
-      final memberModels = MemberModels.fromJson(json.decode(member));
-      setState(() {
-        Username = memberModels.data.username;
-        id_kota = memberModels.data.id_kota;
-        id_gapoktan = memberModels.data.id_gapoktan;
-        id_provinsi = memberModels.data.id_provinsi;
-        idUser = memberModels.data.id;
-        _pict = memberModels.data.pict;
-        _image = memberModels.data.images;
-        if(idUser != null)
-        {
-          _firebaseMessaging.subscribeToTopic('all');
-          _firebaseMessaging.getToken().then((token) {
-            var data = {
-              'token' : token,
-              'id' : idUser
-            };
-            print(data);
-            blocFCM.bloc.actUpdateToken(data,(status, message) => {
-              print("result update :" + message)
-            });
 
-            print(token);
-          });
-        }
+      if(member != "") {
+        final memberModels = MemberModels.fromJson(json.decode(member));
+        setState(() {
+          Username = memberModels.data.username;
+          id_kota = memberModels.data.id_kota;
+          id_gapoktan = memberModels.data.id_gapoktan;
+          id_provinsi = memberModels.data.id_provinsi;
+          idUser = memberModels.data.id;
+          _pict = memberModels.data.pict;
+          _image = memberModels.data.images;
+          if(idUser != null)
+          {
+            _firebaseMessaging.subscribeToTopic('all');
+            _firebaseMessaging.getToken().then((token) {
+              var data = {
+                'token' : token,
+                'id' : idUser
+              };
+              print(data);
+              blocFCM.bloc.actUpdateToken(data,(status, message) => {
+                print("result update :" + message)
+              });
+
+              print(token);
+            });
+          }
+
+
+
+        });
+      }
+
+
+      if(idUser != "") {
         params = {
           "id_komoditi" : widget.dataLayer,
           "id_gapoktan" : id_gapoktan != null ? id_gapoktan : "",
           "id_provinsi" : id_provinsi != null ? id_provinsi : "",
           "id_kota" : id_kota != null ? id_kota : "",
         };
-      });
+
+        await blocMapsGapoktan.bloc.getListMapsGapoktanBloc(params, (status,error,message,model) {
+          GetMapsGapoktanModels dataM = model;
+          int TotalsData = dataM.data.length;
+          print("data total :  $TotalsData");
+          for(int i=0; i < dataM.data.length; i++) {
+            // print("data long : " + dataM.data[i].long);
+            try {
+              _addGapoktan(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].jenis_produk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_default, dataM.data[i].icon,  dataM.data[i].nama_komoditi);
+
+            } catch (e) {
+              print(e);
+            }
+
+          }
+        });
+
+        print("Data params :" + params);
+
+
+        await blocTotal.bloc.getListTotalData(params,(status,error,message,model) {
+          GetListModelTotalData dataM = model;
+          setState(() {
+            TotalBantuan = dataM.data[0].total_bantuan;
+            TotalGapoktan = dataM.data[0].total_gapoktan;
+            TotalKinerja = dataM.data[0].total_kinerja;
+          });
+        });
+
+        print("data layer : " + widget.dataLayer);
+        if(widget.dataLayer != "") {
+          await blocMapsKomoditi.bloc.getListMapsKomoditiBloc(params, (status,error,message,model) {
+            GetMapsKomoditiModels dataM = model;
+            int TotalData = dataM.data.length;
+            print("data total bantuan :  $TotalData");
+            for(int i=0; i < dataM.data.length; i++) {
+              _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
+            }
+
+          });
+        }
+      }
+
     });
 
 
-    print(params);
+    if(idUser == "") {
+      params = {
+        "id_komoditi" : widget.dataLayer,
+        "id_gapoktan" : id_gapoktan != null ? id_gapoktan : "",
+        "id_provinsi" : id_provinsi != null ? id_provinsi : "",
+        "id_kota" : id_kota != null ? id_kota : "",
+      };
 
-    await blocTotal.bloc.getListTotalData(params,(status,error,message,model) {
-      GetListModelTotalData dataM = model;
-      setState(() {
-        TotalBantuan = dataM.data[0].total_bantuan;
-        TotalGapoktan = dataM.data[0].total_gapoktan;
-        TotalKinerja = dataM.data[0].total_kinerja;
-      });
-    });
-
-    print("data layer : " + widget.dataLayer);
-    if(widget.dataLayer != "") {
-      await blocMapsKomoditi.bloc.getListMapsKomoditiBloc(params, (status,error,message,model) {
-        GetMapsKomoditiModels dataM = model;
-        int TotalData = dataM.data.length;
-        print("data total bantuan :  $TotalData");
+      await blocMapsGapoktan.bloc.getListMapsGapoktanBloc(params, (status,error,message,model) {
+        GetMapsGapoktanModels dataM = model;
+        int TotalsData = dataM.data.length;
+        print("data total :  $TotalsData");
         for(int i=0; i < dataM.data.length; i++) {
-          _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
-       }
+          // print("data double parse : " + dataM.data[i].long != 0 ? "lebih dari 0" : "data nya : " + dataM.data[i].long);
+          _addGapoktan(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].jenis_produk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_default, dataM.data[i].icon,  dataM.data[i].nama_komoditi);
 
+        }
       });
+
+      print("Data params :" + params);
+
+
+      await blocTotal.bloc.getListTotalData(params,(status,error,message,model) {
+        GetListModelTotalData dataM = model;
+        setState(() {
+          TotalBantuan = dataM.data[0].total_bantuan;
+          TotalGapoktan = dataM.data[0].total_gapoktan;
+          TotalKinerja = dataM.data[0].total_kinerja;
+        });
+      });
+
+      print("data layer : " + widget.dataLayer);
+      if(widget.dataLayer != "") {
+        await blocMapsKomoditi.bloc.getListMapsKomoditiBloc(params, (status,error,message,model) {
+          GetMapsKomoditiModels dataM = model;
+          int TotalData = dataM.data.length;
+          print("data total bantuan :  $TotalData");
+          for(int i=0; i < dataM.data.length; i++) {
+            _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
+          }
+
+        });
+      }
     }
+
   }
 
   void _showPicker(context) {
