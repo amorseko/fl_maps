@@ -102,7 +102,7 @@ class _ListKinerjaOnlyPage extends State<ListKinerjaOnlyPage> {
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushNamedAndRemoveUntil(
-            context, "/main_page", (_) => false);
+            context, "/maps_page", (_) => false);
         return false;
       },
       child: Scaffold(

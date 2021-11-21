@@ -168,7 +168,7 @@ class _PesanPage extends State<PesanPage> {
                                     if (message == "success") {
                                       clearfield();
                                       Navigator.pushNamedAndRemoveUntil(
-                                          context, "/main_page", (_) => false);
+                                          context, "/maps_page", (_) => false);
 //                                      Navigator.of(context).pushReplacement(new MaterialPageRoute(settings: const RouteSettings(name: '/list_bantuan'), builder: (context) => new ListBantuanPage()));
 //                                      routeToWidget(context, MainPage())
 //                                          .then((value) {

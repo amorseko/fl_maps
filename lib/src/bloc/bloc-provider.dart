@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class BlocProvider<T> extends InheritedWidget {
   final T _bloc;
 
+
   const BlocProvider({
     Key key,
     @required T bloc,
@@ -12,7 +13,7 @@ class BlocProvider<T> extends InheritedWidget {
 
   static T of<T>(BuildContext context) {
     final type = _typeOf<BlocProvider<T>>();
-    final BlocProvider<T> provider = context.inheritFromWidgetOfExactType(type);
+    final BlocProvider<T> provider = context.dependOnInheritedWidgetOfExactType<BlocProvider<T>>();
     if (provider == null) throw StateError('Inherited Provider does not exist');
     return provider._bloc;
   }

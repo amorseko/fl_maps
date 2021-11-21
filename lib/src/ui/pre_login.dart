@@ -25,11 +25,11 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
     return WillPopScope(
       onWillPop: () async {
         Navigator.pushNamedAndRemoveUntil(
-            context, "/main_page", (_) => false);
+            context, "/maps_page", (_) => false);
         return false;
       },
         child : Scaffold(
-            resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomInset: false,
             key: _scaffoldKey,
             backgroundColor: primaryColor,
             body: Column(
@@ -493,7 +493,8 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
 //    print("status login : $status");
     if (code == 200) {
       print("Status Login");
-      Navigator.pushNamedAndRemoveUntil(context, "/main_page", (_) => false);
+      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("sukses login")));
+      Navigator.pushNamedAndRemoveUntil(context, "/maps_page", (_) => false);
     } else  {
       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
     }

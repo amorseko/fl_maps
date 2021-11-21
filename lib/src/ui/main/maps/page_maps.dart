@@ -3,6 +3,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fl_maps/src/model/default_model.dart';
+import 'package:fl_maps/src/ui/main/about_us.dart';
+import 'package:fl_maps/src/ui/main/bantuan/list_bantuan_new.dart';
+import 'package:fl_maps/src/ui/main/kinerja/list_kinerja_only.dart';
+import 'package:fl_maps/src/ui/main/list_notif.dart';
+import 'package:fl_maps/src/ui/main/pesan.dart';
+import 'package:fl_maps/src/ui/main/settings/settings_page.dart';
+import 'package:fl_maps/src/ui/pre_login.dart';
+import 'package:fl_maps/src/utility/utils.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 //import 'package:fab_circular_menu/fab_circular_menu.dart';
@@ -13,6 +24,7 @@ import 'package:fl_maps/src/widgets/ProgressDialog.dart';
 import 'package:fl_maps/src/widgets/TextWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fl_maps/src/model/model_maps.dart';
 import 'package:fl_maps/src/bloc/bloc_maps.dart';
@@ -26,6 +38,9 @@ import 'package:fl_maps/src/bloc/bloc_list_maps_gapoktan_new.dart' as blocMapsGa
 import 'package:fl_maps/src/model/model_maps_gapoktan_new.dart';
 import 'package:fl_maps/src/bloc/bloc_list_maps_komoditi.dart' as blocMapsKomoditi;
 import 'package:fl_maps/src/model/model_maps_komoditi.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:fl_maps/src/bloc/doUpdatePictBloc.dart' as blocProfile;
+import 'package:fl_maps/src/bloc/bloc_fcm.dart' as blocFCM;
 
 
 class MapsPage extends StatefulWidget {
@@ -46,9 +61,15 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
   bool _isLoading = true;
   String TotalGapoktan, TotalBantuan, TotalKinerja;
 
-  String Username, idUser, id_provinsi, id_gapoktan, id_kota;
+  String Username, idUser, id_provinsi, id_gapoktan, id_kota, _image, _pict;
+
+
+  File _images;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final sliderPosition = new ValueNotifier(0.0);
 
@@ -61,6 +82,75 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
   GoogleMapController _controller;
 
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  _registerOnFirebase() {
+    _firebaseMessaging.subscribeToTopic('all');
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+    }
+    );
+  }
+
+
+  Future onSelectNotification(String payload) async {
+    if(payload != "")
+    {
+      routeToWidget(context,ListNotifPage()).then((value) {
+        setPotrait();
+      });
+    }
+  }
+
+  Future<void> _demoNotification(dynamic PayLoad) async {
+    final dynamic data = jsonDecode(PayLoad['data']['data']);
+    final dynamic notification = jsonDecode(PayLoad['data']['notification']);
+    final int idNotification = data['id'] != null ? int.parse(data['id']) : 1;
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'Assiapbun', 'notification', 'List Notification',
+        importance: Importance.max,
+        playSound: true,
+        showProgress: true,
+        priority: Priority.high,
+        ticker: 'test ticker');
+
+    var iOSChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics, iOS : iOSChannelSpecifics);
+    await flutterLocalNotificationsPlugin
+        .show(0, notification['title'], notification['body'], platformChannelSpecifics, payload: 'test');
+  }
+
+  void showNotification(dynamic Payload) async {
+    await _demoNotification(Payload);
+  }
+
+  void getMessage() {
+//    final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
+    var initializationSettingsAndroid = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+    _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          await showNotification(message);
+//
+        },
+        onBackgroundMessage: onBackgroundMessage,
+        onResume: (Map<String, dynamic> message) async {
+          print('on resume $message');
+          await showNotification(message);
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          print('on launch $message');
+          await showNotification(message);
+        }
+    );
+  }
+
   void initState() {
     super.initState();
     _isLoading = false;
@@ -68,6 +158,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
       initView();
      });
 
+    getMessage();
     _animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 260),
@@ -78,25 +169,187 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
   }
 
+  Widget _buildProfileImage() {
+    return Container(
+      child: Container(
+        height: 100,
+        width: 100,
+        child: Material(
+          elevation: 4.0,
+          shape: CircleBorder(),
+          color: hintColor,
+          child: ClipRRect(
+            borderRadius: new BorderRadius.circular(8),
+            child: new InkWell(
+              onTap: () {
+                _showPicker(context);
+              },
+              child:  _image != "" ? Container(
+                  decoration: new BoxDecoration(
+                      border: Border.all(color: primaryColor, width: 2),
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        image:NetworkImage(_pict),
+                      )
+                    //              ),
 
+                  ) ) : _images != null ? Container(
+                  decoration: new BoxDecoration(
+                      border: Border.all(color: primaryColor, width: 2),
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        image:FileImage(File(_images.toString())),
+                      )
+                    //              ),
 
+                  )
+              ) : Container(
+                padding: EdgeInsets.all(22),
+                child: Center(
+                  child: Icon(
+                    Icons.camera_alt, color: Colors.white, size: 40.0,
+                  ),
+                ),
+
+              ),
+
+            ),
+//
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFullName() {
+    TextStyle _nameTextStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
+    );
+
+    return Text(
+      idUser == null ? "ASIAPP" : Username,
+      style: _nameTextStyle,
+    );
+  }
+
+  Widget _navDraw(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          DrawerHeader(
+            child: Column(
+              children: <Widget>[
+                idUser != null ? _buildProfileImage() : SizedBox(height: 100,),
+                SizedBox(height: 5),
+                _buildFullName(),
+              ],
+            ),
+
+          ),
+          idUser == null ? SizedBox(width: 0, height: 0) :  ListTile(
+            title: Text("BANTUAN",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icons_peserta.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: ()  {
+              routeToWidget(context, new ListBantuanNewPage());
+            },
+          ),
+          ListTile(
+            title: Text("MAP",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icon_maps_bantuan.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: () {
+
+              routeToWidget(context, new MapsPage());
+            },
+          ),
+          idUser == null ? SizedBox(width: 0, height: 0) : ListTile(
+            title: Text("KINERJA BANTUAN",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icon_kinerja.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: ()  {
+              routeToWidget(context, new ListKinerjaOnlyPage());
+            },
+          ),
+          idUser == null ? ListTile(
+            title: Text("LOGIN",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icons_syaratketentuan.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: ()  {
+              routeToWidget(context, new PreLoginActivity());
+            },
+          ) : SizedBox(width : 0, height: 0),
+          idUser == null ? SizedBox(width: 0, height: 0) : ListTile(
+            title: Text("PESAN",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icon_pesan.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: ()  {
+              routeToWidget(context, new PesanPage());
+
+            },
+          ),
+
+          idUser == null ? SizedBox(width: 0, height: 0) : ListTile(
+            title: Text("SETTINGS",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icon_settings.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: () {
+              routeToWidget(context, new SettingsPage());
+            },
+          ),
+          idUser == null ? SizedBox(width: 0, height: 0) : ListTile(
+            title: Text("LOGOUT",
+                style: TextStyle(
+                    fontSize: 15, fontWeight: FontWeight.bold)),
+            leading: new Image.asset(
+              "assets/icons/icons_exit.png",
+              fit: BoxFit.cover, width: 40,),
+            onTap: () {
+              _logout();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/main_page", (_) => false);
+          // Navigator.pushNamedAndRemoveUntil(
+          //     context, "/main_page", (_) => false);
           return false;
         },
         child: Scaffold(
+            drawer: _navDraw(context),
             appBar: AppBar(
                 brightness: Brightness.light,
-//            iconTheme: IconThemeData(color: Colors.white),
-                leading: new IconButton(
-                  icon: new Icon(Icons.menu, color: Colors.white),
-                  onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      MainPage()), (Route<dynamic> route) => false),
-                ),
                 title: Text("Bantuan", style: TextStyle(color: Colors.white)),
                 actions: <Widget>[
                   IconButton(
@@ -107,11 +360,6 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                     onPressed: () {
                       // do something
                       Navigator.of(context).pushReplacement(new MaterialPageRoute(settings: const RouteSettings(name: '/gapoktan_page'), builder: (context) => new GapoktanPage()));
-//                  routeToWidget(context,
-//                      GapoktanPage())
-//                      .then((value) {
-//                    setPotrait();
-//                  });
                     },
                   )
                 ],
@@ -170,6 +418,9 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                                               Column(
                                                 children: [
                                                   Text('Kelompok Tani', style: TextStyle(color: Colors.red),),
+                                                  SizedBox(
+                                                    height: MediaQuery.of(context).size.height / 40,
+                                                  ),
                                                   TextWidget(
                                                       txt : TotalGapoktan,
                                                       color: primaryColor,
@@ -182,6 +433,9 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                                               Column(
                                                 children: [
                                                   Text('Bantuan', style: TextStyle(color: Colors.red),),
+                                                  SizedBox(
+                                                    height: MediaQuery.of(context).size.height / 40,
+                                                  ),
                                                   TextWidget(
                                                     txt : TotalBantuan,
                                                     color: primaryColor,
@@ -194,6 +448,9 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                                               Column(
                                                 children: [
                                                   Text('Kinerja', style: TextStyle(color: Colors.red),),
+                                                  SizedBox(
+                                                    height: MediaQuery.of(context).size.height / 40,
+                                                  ),
                                                   TextWidget(
                                                     txt : TotalKinerja,
                                                     color: primaryColor,
@@ -212,11 +469,35 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                         )
                       ],
                     ),
+                  ),
+                  Stack(
+                    children: <Widget>[
+                      Positioned(
+                        bottom:  MediaQuery.of(context).size.height - 450,
+                        left: MediaQuery.of(context).size.width - 55,
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.white,
+                          child: Icon(Icons.info_outline_rounded, color: Colors.blue,),
+                          onPressed: () {
+                            routeToWidget(context, new AboutUS());
+                          },
+                        ),
+                      ),
+                      // new CustomFloatingActionButtonLocation(FloatingActionButtonLocation.centerFloat, 0, -180),
+                      // Align(
+                      //   alignment: Alignment.bottomRight,
+                      //   child:
+                      //     FloatingActionButton(
+                      //         heroTag: null,
+                      //     ),
+                      // ),
+                    ],
                   )
                 ],
               ),
             ),
 //            floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+
             floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.centerFloat, 0, -200),
             floatingActionButton: FloatingActionBubble(
               // Menu items
@@ -299,6 +580,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
               // Flaoting Action button Icon
               iconData: Icons.list,
               backGroundColor: Colors.white,
+
             ),
 
 
@@ -456,40 +738,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
               ],
             ),
           ),
-//          child: Wrap(
-//            children: <Widget>[
-//              ListTile(
-//                title: TextWidget(
-//                  txtSize: 20,
-//                  txt: "Detail Data",
-//
-//                ),
-//              ),
-//              ListTile(
-////                leading: Icon(Icons.star),
-//                title: Text("Jenis Produk : $jenis_produk"),
-//              ),
-//              ListTile(
-////                leading: Icon(Icons.star),
-//                title: Text("Nama Kelompok Tani : $nama_gapoktan"),
-//              ),
-//              ListTile(
-////                leading: Icon(Icons.star),
-//                title: Text("Nama Produk : $nama_produk"),
-//              ),
-//              ListTile(
-////                leading: Icon(Icons.star),
-//                title: Text("Nama PIC : $nama_pic"),
-//              ),
-//              ListTile(
-//                leading: Icon(Icons.close),
-//                onTap: () {
-//                  Navigator.of(context).pop();
-//                },
-//                title: Text("Tutup"),
-//              ),
-//            ],
-//          ),
+
         );
       },
     );
@@ -668,7 +917,11 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
     });
   }
 
-
+  _logout() {
+    SharedPreferencesHelper.clearAllPreference();
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+        PreLoginActivity()), (Route<dynamic> route) => false);
+  }
 
   void _addKomoditi(sCount, Lat, Long, gapoktan, nama_kegiatan, nama_produk, alamat, nama_pic, tahun, jumlah, kapasitas, tahun_pembuatan, icon_bantuan,nama_komoditi) async {
     var markerIdVal = sCount;
@@ -769,6 +1022,24 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
         id_gapoktan = memberModels.data.id_gapoktan;
         id_provinsi = memberModels.data.id_provinsi;
         idUser = memberModels.data.id;
+        _pict = memberModels.data.pict;
+        _image = memberModels.data.images;
+        if(idUser != null)
+        {
+          _firebaseMessaging.subscribeToTopic('all');
+          _firebaseMessaging.getToken().then((token) {
+            var data = {
+              'token' : token,
+              'id' : idUser
+            };
+            print(data);
+            blocFCM.bloc.actUpdateToken(data,(status, message) => {
+              print("result update :" + message)
+            });
+
+            print(token);
+          });
+        }
         params = {
           "id_komoditi" : widget.dataLayer,
           "id_gapoktan" : id_gapoktan != null ? id_gapoktan : "",
@@ -804,6 +1075,105 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
     }
   }
 
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+
+  _imgFromCamera() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50
+    );
+
+    setState(() {
+      _images = image;
+      if(_images != null)
+      {
+        updateData(_images);
+      }
+    });
+  }
+
+  _imgFromGallery() async {
+    File image = await  ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50
+    );
+
+    setState(() {
+      _images = image;
+
+      if(_images != null)
+      {
+        updateData(_images);
+      }
+    });
+  }
+
+  updateData(File __image) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String fileName = __image.path.split('/').last;
+
+    var formData = FormData.fromMap({
+      'id': idUser,
+      'foto': await MultipartFile.fromFile(__image.path, filename: fileName),
+      'username' : Username,
+    });
+
+    blocProfile.bloc.doUpdatePictBloc(formData, (callback){
+      DefaultModel model = callback;
+      String _Message;
+      setState(() {
+        _isLoading = false;
+        print(model.status);
+        if(model.error == false)
+        {
+          _Message = "Sukses";
+        }
+        else
+        {
+          _Message = "Gagal";
+        }
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            _Message,
+          ),
+          duration: Duration(seconds: 2),
+        ));
+
+//        showErrorMessage(context, model.message, model.error);
+      });
+    });
+
+  }
 
 }
 

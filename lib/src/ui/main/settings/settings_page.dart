@@ -142,18 +142,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                         },
                       ),
-                      ListTile(
-                          title: Text("Keluar",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold)),
-                          leading: new Image.asset(
-                            "assets/icons/icons_exit.png", fit: BoxFit.cover,
-                            width: 40,),
-                          onTap: () =>
-                          {
-                            _logout()
-                          }
-                      )
+
                     ],
                   ),
                   Padding(
@@ -182,9 +171,4 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
-  _logout() {
-    SharedPreferencesHelper.clearAllPreference();
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-        PreLoginActivity()), (Route<dynamic> route) => false);
-  }
 }

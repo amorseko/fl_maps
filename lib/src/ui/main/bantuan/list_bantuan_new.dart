@@ -96,7 +96,7 @@ class _ListBantuanNewPage extends State<ListBantuanNewPage> {
     return WillPopScope(
         onWillPop: () async {
           Navigator.pushNamedAndRemoveUntil(
-              context, "/main_page", (_) => false);
+              context, "/maps_page", (_) => false);
           return false;
         },
         child : Scaffold(

@@ -188,7 +188,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                   if (status == true) {
                     Navigator.pushNamedAndRemoveUntil(
-                        context, "/main_page", (_) => false);
+                        context, "/maps_page", (_) => false);
                   } else {
                     Navigator.of(context).pop();
                   }

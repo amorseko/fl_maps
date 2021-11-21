@@ -222,6 +222,8 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+
+
   Widget _buildProfileImage() {
     return Container(
       child: Container(
