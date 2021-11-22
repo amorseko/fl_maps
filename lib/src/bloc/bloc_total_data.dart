@@ -9,8 +9,8 @@ class GetListTotalDataBloc {
   Stream<GetListModelTotalData> get getListTotalDataRes => _GetListTotalDataBloc.stream;
 
   getListTotalData(Map<String, dynamic> body,Function callback) async {
-    // GetListModelTotalData model = await _repository.fetchGetListTotalData(body: body);
-    GetListModelTotalData model = await _repository.fetchGetListTotalData();
+    GetListModelTotalData model = await _repository.fetchGetListTotalData(body: body);
+    // GetListModelTotalData model = await _repository.fetchGetListTotalData();
     _GetListTotalDataBloc.sink.add(model);
     callback(model.status, model.error, model.message, model);
   }

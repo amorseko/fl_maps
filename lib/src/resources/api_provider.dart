@@ -283,7 +283,7 @@ class ApiProvider {
 
     try {
       final response = await _dio.post(
-        "master_komoditi.php",
+        "master_komoditi.php", data: json.encode(body)
       );
       print(response.data);
       return GetListKomoditiData.fromJson(response.data);
@@ -451,11 +451,11 @@ class ApiProvider {
     }
   }
 
-  // Future<GetListModelTotalData> fetchListTotalData({Map<String, dynamic> body}) async {
-  Future<GetListModelTotalData> fetchListTotalData() async {
+  Future<GetListModelTotalData> fetchListTotalData({Map<String, dynamic> body}) async {
+  // Future<GetListModelTotalData> fetchListTotalData() async {
     final _dio = await _syncConnWithoutToken();
     try {
-      final response = await _dio.post("total_data.php");
+      final response = await _dio.post("total_data.php", data: json.encode(body));
       print(response.data);
       return GetListModelTotalData.fromJson(response.data);
     } catch (error, stack) {
@@ -643,8 +643,9 @@ class ApiProvider {
     final _dio = await _syncConnWithoutToken();
 
     try {
+      print(json.encode(body));
       final response = await _dio.post(
-        "master_jenis_bantuan.php",
+        "master_jenis_bantuan.php",data: json.encode(body)
       );
       print(response.data);
       return GetListMasterJenisBantuan.fromJson(response.data);

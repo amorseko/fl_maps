@@ -74,7 +74,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
     super.initState();
     _isLoading = false;
 
-    _attempJenisBantuan();
+
 
 
     SharedPreferencesHelper.getDoLogin().then((member) async {
@@ -123,6 +123,7 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
                       onChanged: (newValue) {
                         setState(() {
                           _selectedGapoktan = newValue;
+                          _attempJenisBantuan(_selectedGapoktan);
                         });
                       },
                       value: _selectedGapoktan,
@@ -684,12 +685,12 @@ class _KinerjaOnlyPage extends State<KinerjaOnlyPage> {
     });
   }
 
-  _attempJenisBantuan() {
+  _attempJenisBantuan(String id_gapoktan) {
     var params = {
-      "id" : "",
+      "id_gapoktan" : id_gapoktan,
     };
 
-    listJenisBantuanBloc.getListMasterJenisBantuan((model) {
+    listJenisBantuanBloc.getListMasterJenisBantuan(params,(model) {
       getJenisBantuan(model);
     });
   }

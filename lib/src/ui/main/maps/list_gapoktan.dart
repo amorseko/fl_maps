@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:fl_maps/src/bloc/bloc_list_komoditi.dart';
+import 'package:fl_maps/src/model/member_model.dart';
 import 'package:fl_maps/src/model/model_list_komoditi.dart';
 import 'package:fl_maps/src/ui/main/main_page.dart';
 import 'package:fl_maps/src/utility/Colors.dart';
+import 'package:fl_maps/src/utility/Sharedpreferences.dart';
 import 'package:fl_maps/src/widgets/ProgressDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_maps/src/bloc/request/params_maps.dart';
@@ -21,6 +24,8 @@ class _GapoktakPage extends State<GapoktanPage> {
   List<String> ressChecked = [];
 
   var tmpArray = [];
+
+  String id_gapoktan;
 
   var userStatus = List<bool>();
   SharedPreferences sharedPrefs;
@@ -276,39 +281,55 @@ class _GapoktakPage extends State<GapoktanPage> {
 
 
   initView() async {
+    SharedPreferencesHelper.getDoLogin().then((member) async {
+      print("data member : $member");
+      if(member != "") {
+        final memberModels = MemberModels.fromJson(json.decode(member));
 
-    reqMapsList params = reqMapsList(
-        gapoktan: ""
-    );
-
-    await blocKomoditi.getListKomoditiBlocs(params.toMap(), (status,error,message,model) async {
-      GetListKomoditiData dataM = model;
-      sharedPrefs = await SharedPreferences.getInstance();
-//      sharedPrefs.clear();
-      for(int i=0; i < dataM.data.length; i++) {
         setState(() {
-
-          userStatus.add((sharedPrefs.getBool(dataM.data[i].id) ?? false));
+          id_gapoktan = id_gapoktan = memberModels.data.id_gapoktan;
         });
       }
 
-      if(sharedPrefs.containsKey('listgapoktan')) {
-        if(sharedPrefs.getString('listgapoktan').contains(',')) {
+      print("id gapoktan : $id_gapoktan");
 
-          var dataArray =sharedPrefs.getString('listgapoktan').split(",");
-          dataArray.forEach((element) {
-            ressChecked.add(element);
+      var params  = {
+        "gapoktan" : id_gapoktan
+      };
+      // reqMapsList params = reqMapsList(
+      //     gapoktan: id_gapoktan
+      // );
+
+      await blocKomoditi.getListKomoditiBlocs(params, (status,error,message,model) async {
+        GetListKomoditiData dataM = model;
+        sharedPrefs = await SharedPreferences.getInstance();
+//      sharedPrefs.clear();
+        for(int i=0; i < dataM.data.length; i++) {
+          setState(() {
+
+            userStatus.add((sharedPrefs.getBool(dataM.data[i].id) ?? false));
           });
-        } else {
-          ressChecked.add(sharedPrefs.getString('listgapoktan'));
         }
 
+        if(sharedPrefs.containsKey('listgapoktan')) {
+          if(sharedPrefs.getString('listgapoktan').contains(',')) {
 
-      }
-      setState(() {
-        _isLoading = false;
+            var dataArray =sharedPrefs.getString('listgapoktan').split(",");
+            dataArray.forEach((element) {
+              ressChecked.add(element);
+            });
+          } else {
+            ressChecked.add(sharedPrefs.getString('listgapoktan'));
+          }
+
+
+        }
+        setState(() {
+          _isLoading = false;
+        });
       });
     });
+
 
 //    await blocGapoktan.getListGapoktanBloc(params.toMap(), (status,error,message,model) async {
 //      GetModelGapoktan dataM = model;

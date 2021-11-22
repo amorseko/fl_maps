@@ -1074,9 +1074,11 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
           }
         });
 
+        var paramsTotalData = {
+          "gapoktan" : id_gapoktan
+        };
 
-
-        await blocTotal.bloc.getListTotalData(params,(status,error,message,model) {
+        await blocTotal.bloc.getListTotalData(paramsTotalData,(status,error,message,model) {
           GetListModelTotalData dataM = model;
           print("data total bantuan : " + dataM.data[0].total_bantuan);
           setState(() {
@@ -1086,22 +1088,25 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
           });
         });
 
-        print(widget.dataLayer);
-        if(widget.dataLayer != "" || widget.dataLayer != null) {
-          await blocMapsKomoditi.bloc.getListMapsKomoditiBloc(params, (status,error,message,model) {
-            GetMapsKomoditiModels dataM = model;
-            int TotalData = dataM.data.length;
-            print("data total bantuan :  $TotalData");
-            for(int i=0; i < dataM.data.length; i++) {
-              try {
-                _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
-              } catch (e) {
-                print(e);
+        // print(widget.dataLayer);
+
+        if(widget.dataLayer == "" || widget.dataLayer == null) {
+
+        } else {
+            await blocMapsKomoditi.bloc.getListMapsKomoditiBloc(params, (status,error,message,model) {
+              GetMapsKomoditiModels dataM = model;
+              int TotalData = dataM.data.length;
+              print("data total bantuan :  $TotalData");
+              for(int i=0; i < dataM.data.length; i++) {
+                try {
+                  _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
+                } catch (e) {
+                  print(e);
+                }
+
               }
 
-            }
-
-          });
+            });
         }
       }
 

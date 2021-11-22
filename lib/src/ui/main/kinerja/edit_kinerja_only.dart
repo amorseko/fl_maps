@@ -771,7 +771,7 @@ class _EditKinerjaOnlyPage extends State<EditKinerjaOnlyPage> {
       "id" : "",
     };
 
-    listJenisBantuanBloc.getListMasterJenisBantuan((model) {
+    listJenisBantuanBloc.getListMasterJenisBantuan(params,(model) {
       getJenisBantuan(model);
     });
   }

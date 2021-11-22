@@ -102,10 +102,10 @@ class Repository {
   Future<DefaultModel> submitJenisProses({FormData formData}) =>
       apiProvider.apiSubmitJenisProses(formData: formData);
 
-  Future<GetListModelTotalData> fetchGetListTotalData() =>
-      apiProvider.fetchListTotalData();
-  // Future<GetListModelTotalData> fetchGetListTotalData({Map<String, dynamic> body}) =>
-  //     apiProvider.fetchListTotalData(body:body);
+  // Future<GetListModelTotalData> fetchGetListTotalData() =>
+  //     apiProvider.fetchListTotalData();
+  Future<GetListModelTotalData> fetchGetListTotalData({Map<String, dynamic> body}) =>
+      apiProvider.fetchListTotalData(body:body);
 
   Future<DefaultModel> submitInvetoryGapoktan({FormData formData}) =>
       apiProvider.submitInvetoryGapoktan(formData: formData);
