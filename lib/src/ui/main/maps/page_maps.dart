@@ -515,7 +515,12 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                       print("data total :  $TotalsData");
                       for(int i=0; i < dataM.data.length; i++) {
                         print(dataM.data[i].nama_komoditi);
-                        _addGapoktan(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].jenis_produk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_default, dataM.data[i].icon,  dataM.data[i].nama_komoditi);
+                        try {
+                          _addGapoktan(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].jenis_produk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_default, dataM.data[i].icon,  dataM.data[i].nama_komoditi);
+
+                        } catch (e) {
+                          print(e);
+                        }
 
                       }
                     });
@@ -548,8 +553,12 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
 
                       for(int i=0; i < dataM.data.length; i++) {
-                        print(dataM.data[i].nama_komoditi);
-                        _add(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].nama_kegiatan, dataM.data[i].nomor_spk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_bantuan, dataM.data[i].nama_komoditi);
+                        try {
+                          _add(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].nama_kegiatan, dataM.data[i].nomor_spk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_bantuan, dataM.data[i].nama_komoditi);
+
+                        } catch(e) {
+                          print(e);
+                        }
                       }
                     });
                     _animationController.reverse();
@@ -1065,11 +1074,11 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
           }
         });
 
-        print("Data params :" + params);
 
 
         await blocTotal.bloc.getListTotalData(params,(status,error,message,model) {
           GetListModelTotalData dataM = model;
+          print("data total bantuan : " + dataM.data[0].total_bantuan);
           setState(() {
             TotalBantuan = dataM.data[0].total_bantuan;
             TotalGapoktan = dataM.data[0].total_gapoktan;
@@ -1077,14 +1086,19 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
           });
         });
 
-        print("data layer : " + widget.dataLayer);
-        if(widget.dataLayer != "") {
+        print(widget.dataLayer);
+        if(widget.dataLayer != "" || widget.dataLayer != null) {
           await blocMapsKomoditi.bloc.getListMapsKomoditiBloc(params, (status,error,message,model) {
             GetMapsKomoditiModels dataM = model;
             int TotalData = dataM.data.length;
             print("data total bantuan :  $TotalData");
             for(int i=0; i < dataM.data.length; i++) {
-              _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
+              try {
+                _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
+              } catch (e) {
+                print(e);
+              }
+
             }
 
           });
@@ -1108,12 +1122,17 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
         print("data total :  $TotalsData");
         for(int i=0; i < dataM.data.length; i++) {
           // print("data double parse : " + dataM.data[i].long != 0 ? "lebih dari 0" : "data nya : " + dataM.data[i].long);
-          _addGapoktan(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].jenis_produk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_default, dataM.data[i].icon,  dataM.data[i].nama_komoditi);
+         // _addGapoktan(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].jenis_produk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_default, dataM.data[i].icon,  dataM.data[i].nama_komoditi);
+          try {
+            _addGapoktan(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long), dataM.data[i].gapoktan, dataM.data[i].jenis_produk, dataM.data[i].nama_produk, dataM.data[i].alamat, dataM.data[i].nama_pic, dataM.data[i].no_pic, dataM.data[i].no_telp, dataM.data[i].nama_kota, dataM.data[i].nama_provinsi, dataM.data[i].icon_default, dataM.data[i].icon,  dataM.data[i].nama_komoditi);
 
+          } catch (e) {
+            print(e);
+          }
         }
       });
 
-      print("Data params :" + params);
+      //print("Data params :" + params);
 
 
       await blocTotal.bloc.getListTotalData(params,(status,error,message,model) {
@@ -1125,14 +1144,19 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
         });
       });
 
-      print("data layer : " + widget.dataLayer);
-      if(widget.dataLayer != "") {
+      //print("data layer : " + widget.dataLayer);
+      if(widget.dataLayer != "" || widget.dataLayer != null) {
         await blocMapsKomoditi.bloc.getListMapsKomoditiBloc(params, (status,error,message,model) {
           GetMapsKomoditiModels dataM = model;
           int TotalData = dataM.data.length;
           print("data total bantuan :  $TotalData");
           for(int i=0; i < dataM.data.length; i++) {
-            _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
+            try {
+              _addKomoditi(i.toString(), double.parse(dataM.data[i].lat), double.parse(dataM.data[i].long),dataM.data[i].nama_gapoktan,dataM.data[i].nama_kegiatan,dataM.data[i].nama_produk,dataM.data[i].alamat,dataM.data[i].nama_pic,dataM.data[i].tahun,dataM.data[i].jumlah,dataM.data[i].kapasitas,dataM.data[i].tahun_pembuatan,dataM.data[i].icon,dataM.data[i].nama_komoditi);
+            } catch (e) {
+              print(e);
+            }
+
           }
 
         });
