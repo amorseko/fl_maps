@@ -263,7 +263,6 @@ class _GapoktakPage extends State<GapoktanPage> {
 
       await blocKomoditi.getListKomoditiBlocs(params.toMap(), (status, error, message, model){
 
-        print(model.status);
         setState(() {
           dataKomoditi = model.data;
 //          userStatus.add(false);
@@ -290,8 +289,6 @@ class _GapoktakPage extends State<GapoktanPage> {
           id_gapoktan = id_gapoktan = memberModels.data.id_gapoktan;
         });
       }
-
-      print("id gapoktan : $id_gapoktan");
 
       var params  = {
         "gapoktan" : id_gapoktan
