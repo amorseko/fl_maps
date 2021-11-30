@@ -61,7 +61,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
   bool _isLoading = true;
   String TotalGapoktan, TotalBantuan, TotalKinerja;
 
-  String Username, idUser, id_provinsi, id_gapoktan, id_kota, _image, _pict;
+  String Username, idUser, id_provinsi, id_gapoktan, id_kota, _image, _pict, latitude, longitude;
 
 
   File _images;
@@ -73,7 +73,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
   final sliderPosition = new ValueNotifier(0.0);
 
-  static final CameraPosition initiallocation = CameraPosition(
+  static CameraPosition initiallocation = CameraPosition(
       target: LatLng(-5.0506560942471275, 115.25509395991492),
       tilt: 0.0,
       zoom: 3.8,
@@ -388,7 +388,6 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                       mapType: MapType.normal,
                       zoomControlsEnabled: true,
                       initialCameraPosition: initiallocation,
-//                  markers: Set.of((_markers != null ? _markers : [])),
                       markers: Set<Marker>.of(markers.values),
                       onCameraMove:(CameraPosition cameraPosition){
 //                        print("camera position: $cameraPosition.zoom");
@@ -997,7 +996,6 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
           _showModal(nama_kegiatan, gapoktan, nomor_spk, nama_produk, alamat, nama_pic, no_pic, no_telp, nama_kota, nama_provinsi, nama_komoditi);
           //_showModal(komoditi, gapoktan, jumlah, kapasitas, kondisi);
         }
-      //  _showModal(komoditi, gapoktan, jumlah, kapasitas, kondisi);
       },
 //      infoWindow: InfoWindow(title: "Nama Komoditi : $komoditi", snippet: "Nama Gapoktan : $gapoktan\nJumlah :\nKapasitas : \nKondisi : "),
 
@@ -1027,6 +1025,9 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
           idUser = memberModels.data.id;
           _pict = memberModels.data.pict;
           _image = memberModels.data.images;
+          latitude = memberModels.data.lat;
+          longitude = memberModels.data.long;
+          
           if(idUser != null)
           {
             _firebaseMessaging.subscribeToTopic('all');
@@ -1051,12 +1052,52 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
 
       if(idUser != "") {
+
         params = {
           "id_komoditi" : widget.dataLayer,
           "id_gapoktan" : id_gapoktan != null ? id_gapoktan : "",
           "id_provinsi" : id_provinsi != null ? id_provinsi : "",
           "id_kota" : id_kota != null ? id_kota : "",
         };
+        // print("data latitude : " + latitude);
+        try {
+          if(latitude == "" && longitude == "") {
+
+
+          } else {
+            if(idUser == "" || idUser == null) {
+              print("kesini ===>>>");
+              initiallocation = CameraPosition(
+                  target: LatLng(-5.0506560942471275, 115.25509395991492),
+                  tilt: 0.0,
+                  zoom: 3.8,
+                  bearing: 0.0
+              );
+
+              CameraUpdate update =CameraUpdate.newCameraPosition(initiallocation);
+              _controller.moveCamera(update);
+            }  else {
+              print("kesana ====>");
+              initiallocation = CameraPosition(
+                  target: LatLng(latitude != null || latitude != "" ? double.parse(latitude) : -5.0506560942471275, longitude != null || longitude != "" ? double.parse(longitude) : 115.25509395991492),
+                  tilt: 0.0,
+                  zoom: 8,
+                  bearing: 0.0
+              );
+              CameraUpdate update =CameraUpdate.newCameraPosition(initiallocation);
+              _controller.moveCamera(update);
+            }
+          }
+        } catch (e) {
+          print("kesonoh ====>" + e.toString());
+          initiallocation = CameraPosition(
+              target: LatLng(-5.0506560942471275, 115.25509395991492),
+              tilt: 0.0,
+              zoom: 3.8,
+              bearing: 0.0
+          );
+        }
+
 
         await blocMapsGapoktan.bloc.getListMapsGapoktanBloc(params, (status,error,message,model) {
           GetMapsGapoktanModels dataM = model;
@@ -1080,7 +1121,7 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
         await blocTotal.bloc.getListTotalData(paramsTotalData,(status,error,message,model) {
           GetListModelTotalData dataM = model;
-          print("data total bantuan : " + dataM.data[0].total_bantuan);
+          // print("data total bantuan : " + dataM.data[0].total_bantuan);
           setState(() {
             TotalBantuan = dataM.data[0].total_bantuan;
             TotalGapoktan = dataM.data[0].total_gapoktan;

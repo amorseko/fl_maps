@@ -456,7 +456,7 @@ class ApiProvider {
     final _dio = await _syncConnWithoutToken();
     try {
       final response = await _dio.post("total_data.php", data: json.encode(body));
-      print(response.data);
+      // print(response.data);
       return GetListModelTotalData.fromJson(response.data);
     } catch (error, stack) {
       print(stack.toString());

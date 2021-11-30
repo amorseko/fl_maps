@@ -11,7 +11,6 @@ class PreLoginActivity extends StatefulWidget {
 }
 
 class _PreLoginActivityState extends State<PreLoginActivity> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
@@ -20,78 +19,44 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
   String _password;
   String _displayName;
   bool _obsecure = false;
-  
+
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/maps_page", (_) => false);
+        Navigator.pushNamedAndRemoveUntil(context, "/maps_page", (_) => false);
         return false;
       },
-        child : Scaffold(
-            resizeToAvoidBottomInset: false,
-            key: _scaffoldKey,
-            backgroundColor: primaryColor,
-            body: Column(
-              children: <Widget>[
-                logo(),
-                Padding(
-                  child: Container(
-                    child: _button("LOGIN", primaryColor, Colors.white, Colors.white,
-                        primaryColor, _loginSheet),
-                    height: 50,
-                  ),
-                  padding: EdgeInsets.only(top: 80, left: 20, right: 20),
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          key: _scaffoldKey,
+          backgroundColor: primaryColor,
+          body: Column(
+            children: <Widget>[
+              logo(),
+              Padding(
+                child: Container(
+                  child: _button("LOGIN", primaryColor, Colors.white,
+                      Colors.white, primaryColor, _loginSheet),
+                  height: 50,
                 ),
-
-                Expanded(
-                  child: Align(
-                    child: ClipPath(
-                      child: Container(
-                        color: Colors.white,
-                        height: 300,
-                      ),
-                      clipper: BottomWaveClipper(),
+                padding: EdgeInsets.only(top: 80, left: 20, right: 20),
+              ),
+              Expanded(
+                child: Align(
+                  child: ClipPath(
+                    child: Container(
+                      color: Colors.white,
+                      height: 300,
                     ),
-                    alignment: Alignment.bottomCenter,
+                    clipper: BottomWaveClipper(),
                   ),
-                )
-              ],
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-            )
-        ),
+                  alignment: Alignment.bottomCenter,
+                ),
+              )
+            ],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+          )),
     );
-//    return Scaffold(
-//        resizeToAvoidBottomPadding: false,
-//        key: _scaffoldKey,
-//        backgroundColor: primaryColor,
-//        body: Column(
-//          children: <Widget>[
-//            logo(),
-//            Padding(
-//              child: Container(
-//                child: _button("LOGIN", primaryColor, Colors.white, Colors.white,
-//                    primaryColor, _loginSheet),
-//                height: 50,
-//              ),
-//              padding: EdgeInsets.only(top: 80, left: 20, right: 20),
-//            ),
-//
-//            Expanded(
-//              child: Align(
-//                child: ClipPath(
-//                  child: Container(
-//                    color: Colors.white,
-//                    height: 300,
-//                  ),
-//                  clipper: BottomWaveClipper(),
-//                ),
-//                alignment: Alignment.bottomCenter,
-//              ),
-//            )
-//          ],
-//          crossAxisAlignment: CrossAxisAlignment.stretch,
-//        ));
   }
 
   Widget filledButton(String text, Color splashColor, Color highlightColor,
@@ -102,8 +67,8 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
       highlightColor: highlightColor,
       elevation: 0.0,
       color: fillColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0)),
+      shape:
+          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
       child: Text(
         text,
         style: TextStyle(
@@ -115,13 +80,16 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
     );
   }
 
-  Widget _input(Icon icon, String hint, TextEditingController controller, bool obsecure) {
+  Widget _input(
+      Icon icon, String hint, TextEditingController controller, bool obsecure) {
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: TextField(
         controller: controller,
         obscureText: obsecure,
-        style: TextStyle(fontSize: 20, ),
+        style: TextStyle(
+          fontSize: 20,
+        ),
         decoration: InputDecoration(
             hintStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             hintText: hint,
@@ -149,62 +117,64 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
       ),
     );
   }
-  
+
   Widget logo() {
     return Center(
         child: Padding(
-          padding: EdgeInsets.only(top: 120),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 240,
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                    child: Container(
-                      child: Align(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          width: 150,
-                          height: 150,
-                        ),
-                        alignment: Alignment.center,
-                      ),
-                      height: 154,
-                    )),
-                Positioned(
-                  child: Container(
-                      height: 154,
-                      width: MediaQuery.of(context).size.width,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child:Image.asset("assets/images/logo.png", width: MediaQuery.of(context).size.width/2,)
-                      )),
+      padding: EdgeInsets.only(top: 120),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 240,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+                child: Container(
+              child: Align(
+                child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
+                  width: 150,
+                  height: 150,
                 ),
-                Positioned(
-                  width: 60,
-                  height: 60,
-                  top: 140,
-                  left: 260,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                  ),
-                ),
-                Positioned(
-                  width: 30,
-                  height: 30,
-                  top: 200,
-                  left: 230,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                  ),
-                ),
-              ],
+                alignment: Alignment.center,
+              ),
+              height: 154,
+            )),
+            Positioned(
+              child: Container(
+                  height: 154,
+                  width: MediaQuery.of(context).size.width,
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                        width: MediaQuery.of(context).size.width / 2,
+                      ))),
             ),
-          ),
-        ));
+            Positioned(
+              width: 60,
+              height: 60,
+              top: 140,
+              left: 260,
+              child: Container(
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              ),
+            ),
+            Positioned(
+              width: 30,
+              height: 30,
+              top: 200,
+              left: 230,
+              child: Container(
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 
   void _registerSheet() {
@@ -213,8 +183,7 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
         decoration: BoxDecoration(color: Theme.of(context).canvasColor),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40.0),
-              topRight: Radius.circular(40.0)),
+              topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
           child: Container(
             child: ListView(
               children: <Widget>[
@@ -268,10 +237,12 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
                                 width: MediaQuery.of(context).size.width,
                                 child: Align(
                                     alignment: Alignment.center,
-                                    child:Image.asset("assets/images/logo.png", width: MediaQuery.of(context).size.width/2,)
-                                )),
+                                    child: Image.asset(
+                                      "assets/images/logo.png",
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                    ))),
                           ),
-                          
                         ],
                       ),
                     ),
@@ -280,8 +251,8 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
                         bottom: 20,
                         top: 60,
                       ),
-                      child: _input(Icon(Icons.account_circle),
-                          "DISPLAY NAME", _nameController, false),
+                      child: _input(Icon(Icons.account_circle), "DISPLAY NAME",
+                          _nameController, false),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -329,8 +300,7 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
         decoration: BoxDecoration(color: Theme.of(context).canvasColor),
         child: ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40.0),
-              topRight: Radius.circular(40.0)),
+              topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
           child: Container(
             child: ListView(
               children: <Widget>[
@@ -386,8 +356,12 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
                                   width: MediaQuery.of(context).size.width,
                                   child: Align(
                                       alignment: Alignment.center,
-                                      child:Image.asset("assets/images/logo.png", width: MediaQuery.of(context).size.width/2,)
-                                  )),
+                                      child: Image.asset(
+                                        "assets/images/logo.png",
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                      ))),
                             ),
                           ],
                         ),
@@ -442,8 +416,8 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
       highlightColor: highlightColor,
       elevation: 0.0,
       color: fillColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(30.0)),
+      shape:
+          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
       child: Text(
         text,
         style: TextStyle(
@@ -460,19 +434,16 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
   void _loginUser() {
     _email = _emailController.text;
     _password = _passwordController.text;
-    if (_email !="" && _password != "") {
-      var reqDologin = {
-          "username": _email,
-          "password": _password
-      };
-      
+    if (_email != "" && _password != "") {
+      var reqDologin = {"username": _email, "password": _password};
+
       bloc.fetchDoLogin(reqDologin, (status, message, code) {
         print(message);
-        _openMainMenu(status,message,code);
+        _openMainMenu(status, message, code);
       });
-
     } else {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Please fill email and password")));
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(content: Text("Please fill email and password")));
     }
     _emailController.clear();
     _passwordController.clear();
@@ -487,19 +458,15 @@ class _PreLoginActivityState extends State<PreLoginActivity> {
     _nameController.clear();
   }
 
-  _openMainMenu(status, message, code) async{
-      print(message);
-//    print("data nya : " + code);
-//    print("status login : $status");
+  _openMainMenu(status, message, code) async {
+    print(message);
     if (code == 200) {
       print("Status Login");
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("sukses login")));
+      _scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text("sukses login")));
       Navigator.pushNamedAndRemoveUntil(context, "/maps_page", (_) => false);
-    } else  {
+    } else {
       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
     }
   }
-
-
-
 }

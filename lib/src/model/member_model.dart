@@ -38,6 +38,8 @@ class _Data {
         this.id_provinsi,
         this.id_kota,
         this.id_gapoktan,
+        this.lat,
+        this.long
       });
 
   @JsonKey(name: 'username')
@@ -64,6 +66,10 @@ class _Data {
   String id_kota;
   @JsonKey(name: 'id_gapoktan')
   String id_gapoktan;
+  @JsonKey(name: 'lat')
+  String lat;
+  @JsonKey(name: 'long')
+  String long;
 
   factory _Data.fromJson(Map<String, dynamic> json) => _$_DataFromJson(json);
 
