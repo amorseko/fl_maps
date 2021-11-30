@@ -487,8 +487,6 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                 ],
               ),
             ),
-//            floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-
             floatingActionButtonLocation: CustomFloatingActionButtonLocation(FloatingActionButtonLocation.centerFloat, 0, -200),
             floatingActionButton: FloatingActionBubble(
               // Menu items
@@ -837,7 +835,6 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
         );
       },
     );
-    future.then((void value) => _closeModal(value));
   }
 
   void _showModalKomoditiBeforeLogin(jenis_produk, nama_gapoktan) {
@@ -994,11 +991,8 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
         else
         {
           _showModal(nama_kegiatan, gapoktan, nomor_spk, nama_produk, alamat, nama_pic, no_pic, no_telp, nama_kota, nama_provinsi, nama_komoditi);
-          //_showModal(komoditi, gapoktan, jumlah, kapasitas, kondisi);
         }
       },
-//      infoWindow: InfoWindow(title: "Nama Komoditi : $komoditi", snippet: "Nama Gapoktan : $gapoktan\nJumlah :\nKapasitas : \nKondisi : "),
-
     );
 
     setState(() {
@@ -1011,7 +1005,6 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
     String datanya;
     datanya = widget.dataLayer;
     print("ini datanya : $datanya");
-    //final SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     SharedPreferencesHelper.getDoLogin().then((member) async {
       print("data member : $member");
 
@@ -1066,7 +1059,6 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
 
           } else {
             if(idUser == "" || idUser == null) {
-              print("kesini ===>>>");
               initiallocation = CameraPosition(
                   target: LatLng(-5.0506560942471275, 115.25509395991492),
                   tilt: 0.0,
@@ -1075,9 +1067,13 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
               );
 
               CameraUpdate update =CameraUpdate.newCameraPosition(initiallocation);
-              _controller.moveCamera(update);
+
+
+              Future.delayed(Duration(seconds: 2), () {
+                _controller.moveCamera(update);
+              });
             }  else {
-              print("kesana ====>");
+
               initiallocation = CameraPosition(
                   target: LatLng(latitude != null || latitude != "" ? double.parse(latitude) : -5.0506560942471275, longitude != null || longitude != "" ? double.parse(longitude) : 115.25509395991492),
                   tilt: 0.0,
@@ -1085,17 +1081,25 @@ class _MapsPage extends State<MapsPage> with SingleTickerProviderStateMixin {
                   bearing: 0.0
               );
               CameraUpdate update =CameraUpdate.newCameraPosition(initiallocation);
-              _controller.moveCamera(update);
+
+
+              Future.delayed(Duration(seconds: 2), () {
+                _controller.moveCamera(update);
+              });
             }
           }
         } catch (e) {
-          print("kesonoh ====>" + e.toString());
           initiallocation = CameraPosition(
               target: LatLng(-5.0506560942471275, 115.25509395991492),
               tilt: 0.0,
               zoom: 3.8,
               bearing: 0.0
           );
+          CameraUpdate update =CameraUpdate.newCameraPosition(initiallocation);
+
+          Future.delayed(Duration(seconds: 2), () {
+            _controller.moveCamera(update);
+          });
         }
 
 
